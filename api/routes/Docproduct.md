@@ -2,6 +2,25 @@
 
 here you'll find examples of requests and responses you'll get out of [products.js](product.js) route
 
+
+# Products Model
+the database model can be found in [products.js](https://github.com/omarfrt/store-api/blob/master/api/models/products.js)
+
+```
+_id: mongoose.Schema.Types.ObjectId,
+  bookName: {type: String, required: false},
+  aboutBook: {type: String, required: false},
+  authorName: {type: String, required: false},
+  isbn: {type: String, required: false},
+  genre: {type: String, required: false},
+  quantity:Number,
+  price: Number,
+  rating:Number,
+  productImgL:{type: String, required: false},
+  productImgS:{type: String, required: false}
+```
+
+
 ## GET 
 ### Request 
 
