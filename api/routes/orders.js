@@ -20,14 +20,14 @@ async function sendreceipt(){
       pass: testAccount.pass // generated ethereal password
     },
     tls:{
-      rejectUnauthorized: false
+      rejectUnauthorized:false
     }
   });
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: '"Fred Foo 👻" <foo@exmple.mail>', // sender address
-    to: "idysarl@gmail.com, lmaoboilmao@gmail.com, ayy31990@gmail.com, omarfertat96@gmail.com, amineelouartisteamlol@gmail.com, elouartinra@gmail.com", // list of receivers
+    from: '"Fred Foo 👻" <jlo-16643a@inbox.mailtrap.io>', // sender address
+    to: "omarfertat96@gmail.com, jlo-16643a@inbox.mailtrap.io", // list of receivers
     subject: "Hello ✔", // Subject line
     text: "Hello world?", // plain text body
     html: "<b>Hello world? mailing khedam f api aller public dyal tanger weeeeeeee. had mail tsayfet mn store-api message if you get this. jlo with love and effection <3 </b>" // html body
@@ -48,7 +48,7 @@ async function sendreceipt(){
 //handle requests get delete .....
 router.get('/',(req, res, next)=>{
 
-
+  sendreceipt();
 
   Order.find()
   // .populate('Product')
