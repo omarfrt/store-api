@@ -4,15 +4,17 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+const usersRoutes = require('./api/routes/user');
 const productRoutes = require('./api/routes/products');
 const ordersRoutes = require('./api/routes/orders');
 const productexRoutes = require('./api/routes/excelProduct');
 const uploadimgsRoutes = require('./api/routes/imagesUpload');
-const usersRoutes = require('./api/routes/user');
+
 
 mongoose.connect('mongodb+srv://jlo:' + process.env.MONGO_ATLAS_PW + '@node-rest-shop-ijnnd.mongodb.net/test?retryWrites=true&w=majority', {
   useNewUrlParser: true
 });
+
 
 app.use(morgan('dev'));
 app.use('/images', express.static('images'));
@@ -33,9 +35,10 @@ app.use((req, res, next) => {
 // routes which should handle requests
 app.use('/products', productRoutes);
 app.use('/orders', ordersRoutes);
+app.use('/user', usersRoutes);
 app.use('/excelProduct', productexRoutes);
 app.use('/imagesUpload', uploadimgsRoutes);
-app.use('/user', usersRoutes);
+
 
 //handling errors
 app.use((req, res, next) => {
@@ -48,7 +51,7 @@ app.use((error, req, res, next) => {
   res.status(error.status || 500);
   res.json({
     error: {
-      message: error.message
+      message: error
     }
   });
 });
