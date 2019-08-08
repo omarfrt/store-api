@@ -5,6 +5,8 @@ const nodemailer = require("nodemailer");
 
 const Order = require('../models/order');
 const Product = require ('../models/products');
+const checkAuth = require('../middleware/check-auth');
+
 
 
 async function sendreceipt(){
@@ -46,8 +48,8 @@ async function sendreceipt(){
 
 
 //handle requests get delete .....
-router.get('/',(req, res, next)=>{
-
+router.get('/', checkAuth ,(req, res, next)=>{
+// in check auth it get sent in the headers with "bearer" in the begining
   sendreceipt();
 
   Order.find()
