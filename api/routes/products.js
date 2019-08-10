@@ -23,6 +23,8 @@ const Product = require('../models/products');
 
 router.get('/',(req, res, next)=>{
   Product.find()
+  .sort({ 'createdAt':-1})
+  .limit(3)
   .select('_id bookName aboutName authorName isbn genre quantity price rating productImgL productImgS')
   .populate('Product')
   .exec()
@@ -174,8 +176,8 @@ router.post('/',upload.single('productImage') ,(req, res, next)=>{
     quantity: req.body.quantity,
     price:req.body.price,
     rating: req.body.rating,
-    productImgL: `/images/imgL/${req.file.filename}`,
-    productImgS: `/images/imgS/${req.file.filename}`
+    // productImgL: `/images/imgL/${req.file.filename}`,
+    // productImgS: `/images/imgS/${req.file.filename}`
   });
   //saving the product
   product

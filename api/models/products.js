@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const timestamps = require('mongoose-timestamp');
 const productSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   bookName: {type: String, required: false},
@@ -12,5 +13,7 @@ const productSchema = mongoose.Schema({
   productImgL:{type: String, required: false},
   productImgS:{type: String, required: false}
 });
+
+ productSchema.plugin(timestamps);
 
 module.exports = mongoose.model('Product', productSchema);
