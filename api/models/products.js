@@ -3,6 +3,7 @@ const timestamps = require('mongoose-timestamp');
 const productSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   bookName: {type: String, required: false},
+  hot:{type:Boolean , required : false},
   aboutBook: {type: String, required: false},
   authorName: {type: String, required: false},
   isbn: {type: String, required: false},

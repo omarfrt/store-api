@@ -21,16 +21,113 @@ const upload = multer({storage: storage});
 const Product = require('../models/products');
 
 
-router.get('/',(req, res, next)=>{
-  Product.find()
-  .sort({ 'createdAt':-1})
-  .limit(3)
+
+router.get('/search/:bookName',(req, res, next)=>{
+
+  var regex = new RegExp(req.params.bookName, 'i');
+  Product.find({'bookName': regex })
+   .sort({'createdAt':-1})
+  .limit(5)
   .select('_id bookName aboutName authorName isbn genre quantity price rating productImgL productImgS')
   .populate('Product')
   .exec()
   .then(docs =>{
   const response={
-    count:docs.length,
+   count:docs.length,
+    products: docs.map(doc=>{
+      return{
+        _id: doc._id,
+        bookName:doc.bookName,
+        about: doc.aboutBook,
+        author: doc.authorName,
+        isbn: doc.isbn,
+        genre: doc.genre,
+        quantity: doc.quantity,
+        price:doc.price,
+        rating: doc.rating,
+        productImgL: doc.productImgL,
+        productImgS: doc.productImgS,
+        request:{
+          //hna kay3tik link w methode li tdir bach tjbed
+          //gha wa7d lbook , 2000000IQ shit
+          type:'GET',
+          url:'http://localhost:3000/products/' +doc._id
+        }
+      }
+    })
+  };
+    res.status(200).json(response);
+  })
+  .catch(err=>{
+    console.log(err);
+    res.status(500).json({
+      error:err
+    });
+  });
+});
+
+///////////////GET 10 hot new items //////////////
+
+router.get('/hot',(req, res, next)=>{
+  Product.find({hot:true})
+   .sort({ 'createdAt':-1})
+  .limit(5)
+  .select('_id bookName aboutName authorName isbn genre quantity price rating productImgL productImgS')
+  .populate('Product')
+  .exec()
+  .then(docs =>{
+  const response={
+   count:docs.length,
+    products: docs.map(doc=>{
+      return{
+        _id: doc._id,
+        bookName:doc.bookName,
+        about: doc.aboutBook,
+        author: doc.authorName,
+        isbn: doc.isbn,
+        genre: doc.genre,
+        quantity: doc.quantity,
+        price:doc.price,
+        rating: doc.rating,
+        productImgL: doc.productImgL,
+        productImgS: doc.productImgS,
+        request:{
+          //hna kay3tik link w methode li tdir bach tjbed
+          //gha wa7d lbook , 2000000IQ shit
+          type:'GET',
+          url:'http://localhost:3000/products/' +doc._id
+        }
+      }
+    })
+  };
+    res.status(200).json(response);
+  })
+  .catch(err=>{
+    console.log(err);
+    res.status(500).json({
+      error:err
+    });
+  });
+});
+
+
+
+
+
+
+
+
+///////////////find latest 5//////////////////////
+router.get('/',(req, res, next)=>{
+  Product.find()
+   .sort({ 'createdAt':-1})
+  .limit(5)
+  .select('_id bookName aboutName authorName isbn genre quantity price rating productImgL productImgS')
+  .populate('Product')
+  .exec()
+  .then(docs =>{
+  const response={
+   count:docs.length,
     products: docs.map(doc=>{
       return{
         _id: doc._id,
