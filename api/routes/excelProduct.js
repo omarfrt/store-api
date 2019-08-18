@@ -33,6 +33,25 @@ var upload = multer({
 }).single('file');
 
 
+// 
+// async function loadProducts() {
+//   try {
+//     const exproducts = await JSON.parse(fs.readFileSync( './jsonFolder/listproducts.json', 'utf-8'));
+//     await Product.insertMany(exproducts);
+//     console.log('products been uploaded secessfuly !');
+//     await rimraf('./jsonFolder/*', function() {
+//       console.log('json file been deleted');
+//     });
+//
+//   } catch (e) {
+//     console.log(e);
+//
+//   }
+// };
+
+
+
+
 
 
 
@@ -87,8 +106,13 @@ async function uloadExcel(req, res, next) {
           err_desc: null,
           data: result
         });
+        console.log("saving insertMany");
+        Product.insertMany(result);
+        console.log("saved insertMany!!!!!!!!!!!!!!");
       });
-      deleteexcel()
+      console.log("going to deleteand save");
+      deleteexcel();
+
     } catch (e) {
       res.json({
         error_code: 1,
@@ -98,6 +122,7 @@ async function uloadExcel(req, res, next) {
   })
 };
 
+//we have a problem with uploading json to atlas
 
 
 
@@ -106,25 +131,11 @@ async function uloadExcel(req, res, next) {
 
 
 
-async function loadProducts() {
-  try {
-    const exproducts = await JSON.parse(fs.readFileSync( './jsonFolder/listproducts.json', 'utf-8'));
-    await Product.insertMany(exproducts);
-    console.log('products been uploaded secessfuly !');
-    await rimraf('./jsonFolder/*', function() {
-      console.log('json file been deleted');
-    });
-
-  } catch (e) {
-    console.log(e);
-
-  }
-};
 
 
 router.post('/', (req, res, next) => {
-  uloadExcel(req, res, next)
-  loadProducts()
+  uloadExcel(req, res, next);
+
 
 });
 

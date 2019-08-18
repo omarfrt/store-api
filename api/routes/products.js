@@ -22,13 +22,21 @@ const Product = require('../models/products');
 
 
 
-router.get('/search/:bookName',(req, res, next)=>{
 
+
+///////////////////////////////////////////// search pagenation/////////////////////////////////////////////
+router.get('/search/:bookName/:page',(req, res, next)=>{
+
+
+  const resPerPage =2;
+  const page = req.params.page || 1;
+console.log(page);
   var regex = new RegExp(req.params.bookName, 'i');
   Product.find({'bookName': regex })
    .sort({'createdAt':-1})
-  .limit(5)
-  .select('_id bookName aboutName authorName isbn genre quantity price rating productImgL productImgS')
+   .skip((resPerPage * page) - resPerPage)
+  .limit(resPerPage)
+  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs hot')
   .populate('Product')
   .exec()
   .then(docs =>{
@@ -37,16 +45,71 @@ router.get('/search/:bookName',(req, res, next)=>{
     products: docs.map(doc=>{
       return{
         _id: doc._id,
-        bookName:doc.bookName,
-        about: doc.aboutBook,
-        author: doc.authorName,
+        bookname:doc.bookname,
+        hot:doc.hot,
+        aboutbook: doc.aboutbook,
+        authorname: doc.authorname,
         isbn: doc.isbn,
         genre: doc.genre,
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productImgL: doc.productImgL,
-        productImgS: doc.productImgS,
+        productimgl: doc.productimgl,
+        productimgs: doc.productimgs,
+        request:{
+          //hna kay3tik link w methode li tdir bach tjbed
+          //gha wa7d lbook , 2000000IQ shit
+          type:'GET',
+          url:'http://localhost:3000/products/' +doc._id
+        }
+      }
+    })
+  };
+
+    res.status(200).json(response);
+  })
+  .catch(err=>{
+    console.log(err);
+    res.status(500).json({
+      error:err
+    });
+  });
+});
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+router.get('/search/:bookName',(req, res, next)=>{
+
+  var regex = new RegExp(req.params.bookName, 'i');
+  Product.find({'bookName': regex })
+   .sort({'createdAt':-1})
+  .limit(5)
+  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs hot')
+  .populate('Product')
+  .exec()
+  .then(docs =>{
+  const response={
+   count:docs.length,
+    products: docs.map(doc=>{
+      return{
+        _id: doc._id,
+        bookname:doc.bookname,
+        hot:doc.hot,
+        aboutbook: doc.aboutbook,
+        authorname: doc.authorname,
+        isbn: doc.isbn,
+        genre: doc.genre,
+        quantity: doc.quantity,
+        price:doc.price,
+        rating: doc.rating,
+        productimgl: doc.productimgl,
+        productimgs: doc.productimgs,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -72,7 +135,7 @@ router.get('/hot',(req, res, next)=>{
   Product.find({hot:true})
    .sort({ 'createdAt':-1})
   .limit(5)
-  .select('_id bookName aboutName authorName isbn genre quantity price rating productImgL productImgS')
+  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs hot')
   .populate('Product')
   .exec()
   .then(docs =>{
@@ -81,16 +144,17 @@ router.get('/hot',(req, res, next)=>{
     products: docs.map(doc=>{
       return{
         _id: doc._id,
-        bookName:doc.bookName,
-        about: doc.aboutBook,
-        author: doc.authorName,
+        bookname:doc.bookname,
+        hot:doc.hot,
+        aboutbook: doc.aboutbook,
+        authorname: doc.authorname,
         isbn: doc.isbn,
         genre: doc.genre,
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productImgL: doc.productImgL,
-        productImgS: doc.productImgS,
+        productimgl: doc.productimgl,
+        productimgs: doc.productimgs,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -121,8 +185,8 @@ router.get('/hot',(req, res, next)=>{
 router.get('/',(req, res, next)=>{
   Product.find()
    .sort({ 'createdAt':-1})
-  .limit(5)
-  .select('_id bookName aboutName authorName isbn genre quantity price rating productImgL productImgS')
+  //.limit(5)
+  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs hot')
   .populate('Product')
   .exec()
   .then(docs =>{
@@ -131,16 +195,17 @@ router.get('/',(req, res, next)=>{
     products: docs.map(doc=>{
       return{
         _id: doc._id,
-        bookName:doc.bookName,
-        about: doc.aboutBook,
-        author: doc.authorName,
+        bookname:doc.bookname,
+        hot:doc.hot,
+        aboutbook: doc.aboutbook,
+        authorname: doc.authorname,
         isbn: doc.isbn,
         genre: doc.genre,
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productImgL: doc.productImgL,
-        productImgS: doc.productImgS,
+        productimgl: doc.productimgl,
+        productimgs: doc.productimgs,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -150,6 +215,7 @@ router.get('/',(req, res, next)=>{
       }
     })
   };
+
     res.status(200).json(response);
   })
   .catch(err=>{
@@ -265,9 +331,9 @@ router.post('/',upload.single('productImage') ,(req, res, next)=>{
   const product = new Product({
 
     _id: new mongoose.Types.ObjectId(),
-    bookName:req.body.bookName,
-    about: req.body.aboutBook,
-    author: req.body.authorName,
+    bookname:req.body.bookname,
+    aboutbook: req.body.aboutbook,
+    authorname: req.body.authorname,
     isbn: req.body.isbn,
     genre: req.body.genre,
     quantity: req.body.quantity,
@@ -333,16 +399,16 @@ router.delete("/:productId", (req, res, next)=>{
         type:'POST',
         url:'http://localhost:3000/products/',
         body:{
-          bookName: {type: String, required: true},
-          aboutBook: {type: String, required: true},
-          authorName: {type: String, required: true},
+          bookname: {type: String, required: true},
+          aboutbook: {type: String, required: true},
+          authorname: {type: String, required: true},
           isbn: {type: String, required: true},
           genre: {type: String, required: true},
           quantity:Number,
           price: Number,
           rating:Number,
-          productImgL:{type: String, required: true},
-          productImgS:{type: String, required: true}
+          productimgl:{type: String, required: true},
+          productimgs:{type: String, required: true}
         }
       }
     });

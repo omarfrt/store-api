@@ -2,17 +2,17 @@ const mongoose = require('mongoose');
 const timestamps = require('mongoose-timestamp');
 const productSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
-  bookName: {type: String, required: false},
+  bookname: {type: String, required: false},
   hot:{type:Boolean , required : false},
-  aboutBook: {type: String, required: false},
-  authorName: {type: String, required: false},
+  aboutbook: {type: String, required: false},
+  authorname: {type: String, required: false},
   isbn: {type: String, required: false},
   genre: {type: String, required: false},
   quantity:Number,
   price: Number,
   rating:Number,
-  productImgL:{type: String, required: false},
-  productImgS:{type: String, required: false}
+  productimgl:{type: String, required: false},
+  productimgs:{type: String, required: false}
 });
 
  productSchema.plugin(timestamps);
