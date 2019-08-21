@@ -186,7 +186,7 @@ router.get('/',(req, res, next)=>{
   Product.find()
    .sort({ 'createdAt':-1})
   //.limit(5)
-  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs hot')
+  .select('_id bookname aboutbook authorname isbn genre quantity price rating productimgl productimgs hot')
   .populate('Product')
   .exec()
   .then(docs =>{
