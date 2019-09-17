@@ -339,8 +339,8 @@ router.post('/',upload.single('productImage') ,(req, res, next)=>{
     quantity: req.body.quantity,
     price:req.body.price,
     rating: req.body.rating,
-    // productImgL: `/images/imgL/${req.file.filename}`,
-    // productImgS: `/images/imgS/${req.file.filename}`
+     productImgL: `/images/imgL/${req.file.filename}`,
+     productImgS: `/images/imgS/${req.file.filename}`
   });
   //saving the product
   product
