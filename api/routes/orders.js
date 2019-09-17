@@ -48,12 +48,11 @@ async function sendreceipt(){
 
 
 //handle requests get delete .....
-router.get('/', checkAuth ,(req, res, next)=>{
+router.get('/', (req, res, next)=>{
 // in check auth it get sent in the headers with "bearer" in the begining
-  sendreceipt();
+ // sendreceipt();
 
   Order.find()
-  // .populate('Product')
   .exec()
   .then(docs=>{
     const response = {
@@ -61,9 +60,11 @@ router.get('/', checkAuth ,(req, res, next)=>{
       orders: docs.map(doc=>{
         return{
           _id: doc._id,
-          product: doc.product,
+          product: doc.products,
+          user: doc.user,
           totalPrice:doc.totalPrice,
-
+          updatedAt:doc.updatedAt,
+          createdAt:doc.createdAt,
           request:{
             type :'GET',
             url:'http://localhost:3000/orders/'+ doc._id
@@ -85,7 +86,7 @@ router.get('/', checkAuth ,(req, res, next)=>{
 
 router.post('/',(req, res, next)=>{
 const total = req.body.products.reduce((acc,product)=>{
-  acc += product.orderQte * product.price;
+  acc += product.price ;
   return acc;
 },0)
 
@@ -94,6 +95,7 @@ const total = req.body.products.reduce((acc,product)=>{
 const order= new Order({
   _id: new mongoose.Types.ObjectId,
   products:req.body.products,
+  user:req.body.user,
   totalPrice: total
 });
  order.save()
