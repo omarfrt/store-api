@@ -15,6 +15,12 @@ const orderSchema = mongoose.Schema({
     productimgl:{type: String, required: false},
     productimgs:{type: String, required: false}
   }],
+  user:     { firstname:{type: String, required: true},
+              lastname:{type: String, required: true},
+              email:{type: String, required: true},
+              phone:{type: String, required: true},
+              address:{type: String, required: true},
+              Cin:{type: String, required: true}},
   totalPrice: {type:Number, required:true}
 });
 orderSchema.plugin(timestamps);
