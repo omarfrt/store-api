@@ -8,7 +8,7 @@ the database model can be found in [products.js](https://github.com/omarfrt/stor
 
 ```
 _id: mongoose.Schema.Types.ObjectId,
-  bookName: {type: String, required: false},
+bookname: {type: String, required: false},
   aboutBook: {type: String, required: false},
   authorName: {type: String, required: false},
   isbn: {type: String, required: false},
@@ -31,7 +31,7 @@ get http://localhost:3000/products/
 
 ```
         _id: doc._id,
-        bookName:doc.bookName,
+      bookname:docbookname,
         about: doc.aboutBook,
         author: doc.authorName,
         isbn: doc.isbn,
@@ -70,7 +70,7 @@ Post http://localhost:3000/products/
   with body 
 
 ```
-    bookName:
+  bookname:
     about:
     author:
     isbn: 
@@ -114,7 +114,7 @@ get http://localhost:3000/products/:productId
 
 ```
     _id:
-    bookName:
+  bookname:
     about:
     author:
     isbn: 
@@ -156,7 +156,7 @@ get http://localhost:3000/products/:productId
         type:'POST',
         url:'http://localhost:3000/products/',
         body:{
-          bookName: {type: String, required: true},
+        bookname: {type: String, required: true},
           aboutBook: {type: String, required: true},
           authorName: {type: String, required: true},
           isbn: {type: String, required: true},
@@ -186,8 +186,8 @@ get http://localhost:3000/products/:productId
     with body 
     
     ```
-    //you can patch what you want not full body , exmple just bookName.
-        bookName:
+    //you can patch what you want not full body , exmple justbookname.
+      bookname:
         about:
         author:
         isbn: 

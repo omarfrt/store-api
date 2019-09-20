@@ -4,7 +4,7 @@ const orderSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   products: [{  _id:{type: String, required: true},
     bookname: {type: String, required: true},
-    hot:{type:Boolean , required : false},
+    sale:{type:Boolean , required : false},
     aboutbook: {type: String, required: true},
     authorname: {type: String, required: true},
     isbn: {type: String, required: true},
@@ -21,7 +21,8 @@ const orderSchema = mongoose.Schema({
               phone:{type: String, required: true},
               address:{type: String, required: true},
               Cin:{type: String, required: true}},
-  totalPrice: {type:Number, required:true}
+  totalPrice: {type:Number, required:true},
+  confirmed:{type:Boolean , required : false}
 });
 orderSchema.plugin(timestamps);
 

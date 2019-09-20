@@ -48,11 +48,16 @@ async function sendreceipt(){
 
 
 //handle requests get delete .....
-router.get('/', (req, res, next)=>{
+router.get('/:page', (req, res, next)=>{
 // in check auth it get sent in the headers with "bearer" in the begining
  // sendreceipt();
-
+  
+ const resPerPage =20;
+ const page = req.params.page || 1;
   Order.find()
+  .sort({'createdAt':-1})
+  .skip((resPerPage * page) - resPerPage)
+  .limit(resPerPage)
   .exec()
   .then(docs=>{
     const response = {
@@ -63,6 +68,7 @@ router.get('/', (req, res, next)=>{
           product: doc.products,
           user: doc.user,
           totalPrice:doc.totalPrice,
+          confirmed:doc.confirmed,
           updatedAt:doc.updatedAt,
           createdAt:doc.createdAt,
           request:{
@@ -90,7 +96,7 @@ const total = req.body.products.reduce((acc,product)=>{
   return acc;
 },0)
 
-  sendreceipt();
+ 
 
 const order= new Order({
   _id: new mongoose.Types.ObjectId,
@@ -133,7 +139,7 @@ const order= new Order({
 
 router.get('/:orderId',(req, res, next)=>{
     Order.findById(req.params.orderId)
-    .populate('pruduct')
+    .populate('order')
     .exec()
     .then(order =>{
       res.status(200).json({
@@ -172,6 +178,32 @@ router.delete('/:orderId',(req, res, next)=>{
       });
     });
 });
+
+router.patch("/:productId",(req, res, next)=>{
+  const id= req.params.productId;
+  console.log(id);
+  
+  Order.update({_id:id},{$set:{confirmed:true}})
+  .exec()
+  .then(result=>{
+    res.status(200).json({
+      message:'order updated',
+      request:{
+        type:'GET',
+        url:'http://localhost:2000/orders/'+ id
+      }
+    });
+  })
+  .catch(err=>{
+    console.log(err);
+    res.status(500).json({
+      error:err
+    });
+  });
+  sendreceipt();
+});
+
+
 
 
 module.exports= router;

@@ -36,7 +36,7 @@ console.log(page);
    .sort({'createdAt':-1})
    .skip((resPerPage * page) - resPerPage)
   .limit(resPerPage)
-  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs hot')
+  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs sale')
   .populate('Product')
   .exec()
   .then(docs =>{
@@ -46,7 +46,7 @@ console.log(page);
       return{
         _id: doc._id,
         bookname:doc.bookname,
-        hot:doc.hot,
+        sale:doc.sale,
         aboutbook: doc.aboutbook,
         authorname: doc.authorname,
         isbn: doc.isbn,
@@ -90,7 +90,7 @@ router.get('/search/:bookName',(req, res, next)=>{
   Product.find({'bookName': regex })
    .sort({'createdAt':-1})
   .limit(5)
-  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs hot')
+  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs sale')
   .populate('Product')
   .exec()
   .then(docs =>{
@@ -100,7 +100,7 @@ router.get('/search/:bookName',(req, res, next)=>{
       return{
         _id: doc._id,
         bookname:doc.bookname,
-        hot:doc.hot,
+        sale:doc.sale,
         aboutbook: doc.aboutbook,
         authorname: doc.authorname,
         isbn: doc.isbn,
@@ -129,13 +129,13 @@ router.get('/search/:bookName',(req, res, next)=>{
   });
 });
 
-///////////////GET 10 hot new items //////////////
+///////////////GET 5 sales //////////////
 
-router.get('/hot',(req, res, next)=>{
-  Product.find({hot:true})
+router.get('/sales',(req, res, next)=>{
+  Product.find({sale:true})
    .sort({ 'createdAt':-1})
   .limit(5)
-  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs hot')
+  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs sale')
   .populate('Product')
   .exec()
   .then(docs =>{
@@ -145,7 +145,7 @@ router.get('/hot',(req, res, next)=>{
       return{
         _id: doc._id,
         bookname:doc.bookname,
-        hot:doc.hot,
+        sale:doc.sale,
         aboutbook: doc.aboutbook,
         authorname: doc.authorname,
         isbn: doc.isbn,
@@ -181,12 +181,12 @@ router.get('/hot',(req, res, next)=>{
 
 
 
-///////////////find latest 5//////////////////////
-router.get('/',(req, res, next)=>{
+///////////////hero find latest 5//////////////////////
+router.get('/hero',(req, res, next)=>{
   Product.find()
    .sort({ 'createdAt':-1})
-  //.limit(5)
-  .select('_id bookname aboutbook authorname isbn genre quantity price rating productimgl productimgs hot')
+  .limit(5)
+  .select('_id bookname aboutbook authorname isbn genre quantity price rating productimgl productimgs sale')
   .populate('Product')
   .exec()
   .then(docs =>{
@@ -196,7 +196,7 @@ router.get('/',(req, res, next)=>{
       return{
         _id: doc._id,
         bookname:doc.bookname,
-        hot:doc.hot,
+        sale:doc.sale,
         aboutbook: doc.aboutbook,
         authorname: doc.authorname,
         isbn: doc.isbn,
