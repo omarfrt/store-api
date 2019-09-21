@@ -25,14 +25,14 @@ const Product = require('../models/products');
 
 
 ///////////////////////////////////////////// search pagenation/////////////////////////////////////////////
-router.get('/search/:bookName/:page',(req, res, next)=>{
+router.get('/search/:bookname/:page',(req, res, next)=>{
 
 
   const resPerPage =12;
   const page = req.params.page || 1;
 console.log(page);
-  var regex = new RegExp(req.params.bookName, 'i');
-  Product.find({'bookName': regex })
+  var regex = new RegExp(req.params.bookname, 'i');
+  Product.find({'bookname': regex })
    .sort({'createdAt':-1})
    .skip((resPerPage * page) - resPerPage)
   .limit(resPerPage)
@@ -86,10 +86,10 @@ console.log(page);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
-router.get('/search/:bookName',(req, res, next)=>{
+router.get('/search/:bookname',(req, res, next)=>{
 
-  var regex = new RegExp(req.params.bookName, 'i');
-  Product.find({'bookName': regex })
+  var regex = new RegExp(req.params.bookname, 'i');
+  Product.find({'bookname': regex })
    .sort({'createdAt':-1})
   .limit(5)
   .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs sale')
