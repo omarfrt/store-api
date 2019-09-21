@@ -8,6 +8,8 @@ const productSchema = mongoose.Schema({
   authorname: {type: String, required: true},
   isbn: {type: String, required: true},
   genre: {type: String, required: true},
+  sale: {type: Boolean, required: false},
+  available: {type: Boolean, required: false},
  // quantity:Number,
   price: Number,
   rating:Number,

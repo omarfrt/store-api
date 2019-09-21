@@ -28,7 +28,7 @@ const Product = require('../models/products');
 router.get('/search/:bookName/:page',(req, res, next)=>{
 
 
-  const resPerPage =2;
+  const resPerPage =12;
   const page = req.params.page || 1;
 console.log(page);
   var regex = new RegExp(req.params.bookName, 'i');
@@ -51,6 +51,8 @@ console.log(page);
         authorname: doc.authorname,
         isbn: doc.isbn,
         genre: doc.genre,
+        sale: doc.sale,
+        available: doc.available,
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
@@ -105,6 +107,8 @@ router.get('/search/:bookName',(req, res, next)=>{
         authorname: doc.authorname,
         isbn: doc.isbn,
         genre: doc.genre,
+        sale: doc.sale,
+        available: doc.available,
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
@@ -150,6 +154,8 @@ router.get('/sales',(req, res, next)=>{
         authorname: doc.authorname,
         isbn: doc.isbn,
         genre: doc.genre,
+        sale: doc.sale,
+        available: doc.available,
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
@@ -181,11 +187,11 @@ router.get('/sales',(req, res, next)=>{
 
 
 
-///////////////hero find latest 5//////////////////////
+///////////////hero find latest 7//////////////////////
 router.get('/hero',(req, res, next)=>{
   Product.find()
    .sort({ 'createdAt':-1})
-  .limit(5)
+  .limit(7)
   .select('_id bookname aboutbook authorname isbn genre quantity price rating productimgl productimgs sale')
   .populate('Product')
   .exec()
@@ -201,6 +207,57 @@ router.get('/hero',(req, res, next)=>{
         authorname: doc.authorname,
         isbn: doc.isbn,
         genre: doc.genre,
+        sale: doc.sale,
+        available: doc.available,
+        quantity: doc.quantity,
+        price:doc.price,
+        rating: doc.rating,
+        productimgl: doc.productimgl,
+        productimgs: doc.productimgs,
+        request:{
+          //hna kay3tik link w methode li tdir bach tjbed
+          //gha wa7d lbook , 2000000IQ shit
+          type:'GET',
+          url:'http://localhost:3000/products/' +doc._id
+        }
+      }
+    })
+  };
+
+    res.status(200).json(response);
+  })
+  .catch(err=>{
+    console.log(err);
+    res.status(500).json({
+      error:err
+    });
+  });
+});
+/////////////////////brows 12 products a page////////////////////////////
+router.get('/brows/:page',(req, res, next)=>{
+  const resPerPage =12;
+  const page = req.params.page || 1;
+  Product.find()
+  .sort({'createdAt':-1})
+  .skip((resPerPage * page) - resPerPage)
+  .limit(resPerPage)
+  .select('_id bookname aboutbook authorname isbn genre quantity price rating productimgl productimgs sale')
+  .populate('Product')
+  .exec()
+  .then(docs =>{
+  const response={
+   count:docs.length,
+    products: docs.map(doc=>{
+      return{
+        _id: doc._id,
+        bookname:doc.bookname,
+        sale:doc.sale,
+        aboutbook: doc.aboutbook,
+        authorname: doc.authorname,
+        isbn: doc.isbn,
+        genre: doc.genre,
+        sale: doc.sale,
+        available: doc.available,
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
@@ -365,7 +422,7 @@ router.post('/',upload.single('productImage') ,(req, res, next)=>{
 
 
 
-router.get('/:productId', (req, res, next)=>{
+router.get('/view/:productId', (req, res, next)=>{
   const id = req.params.productId;
   Product.findById(id)
   .exec()
