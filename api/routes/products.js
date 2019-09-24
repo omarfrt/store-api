@@ -89,7 +89,7 @@ console.log(page);
 router.get('/search/:bookname',(req, res, next)=>{
 
   var regex = new RegExp(req.params.bookname, 'i');
-  Product.find({'bookname': regex })
+  Product.find({$or:[{bookname: regex},{authorname: regex},{genre:regex}]})
    .sort({'createdAt':-1})
   .limit(5)
   .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs sale')
