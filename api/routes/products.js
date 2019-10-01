@@ -7,6 +7,7 @@ const rimraf = require('rimraf');
 // const imageminJpegtran = require('imagemin-jpegtran');
 // const imageminPngquant = require('imagemin-pngquant');
 const fs = require('fs');
+const sharp = require('sharp');
 
 const storage = multer.diskStorage({
     destination : function(req,file,cb){
@@ -441,7 +442,9 @@ function MinifyImages(){
 
     for (var i=0; i<items.length; i++) {
       sharp('./uploads/'+ items[i])// it needs image path folder doesntwork
-        .resize(300, 200)
+      .jpeg({
+        quality: 20,
+      })
         .toFile('./images/imgS/'+ items[i], function(err) { // same here it needs the fullpath with new image name to be saved
           if(!err){
             console.log("everything is working for small imgs");
@@ -475,6 +478,57 @@ function MinifyImages(){
     rimraf('./uploads/*', function () { console.log('done'); });
 });
 }
+/////////////////////////////testing//////////
+router.get('/testing/:page',(req, res, next)=>{
+  MinifyImages();
+  const resPerPage =12;
+  const page = req.params.page || 1;
+  Product.find()
+  .sort({'createdAt':-1})
+  .skip((resPerPage * page) - resPerPage)
+  .limit(resPerPage)
+  .select('_id bookname aboutbook authorname isbn genre quantity price rating productimgl productimgs sale')
+  .populate('Product')
+  .exec()
+  .then(docs =>{
+  const response={
+   count:docs.length,
+    products: docs.map(doc=>{
+      return{
+        _id: doc._id,
+        bookname:doc.bookname,
+        sale:doc.sale,
+        aboutbook: doc.aboutbook,
+        authorname: doc.authorname,
+        isbn: doc.isbn,
+        genre: doc.genre,
+        sale: doc.sale,
+        available: doc.available,
+        quantity: doc.quantity,
+        price:doc.price,
+        rating: doc.rating,
+        productimgl: doc.productimgl,
+        productimgs: doc.productimgs,
+        request:{
+          //hna kay3tik link w methode li tdir bach tjbed
+          //gha wa7d lbook , 2000000IQ shit
+          type:'GET',
+          url:'http://localhost:3000/products/' +doc._id
+        }
+      }
+    })
+  };
+
+    res.status(200).json(response);
+  })
+  .catch(err=>{
+    console.log(err);
+    res.status(500).json({
+      error:err
+    });
+  });
+});
+/////////////////////////////////////////////
 router.post('/',upload.single('productImage') ,(req, res, next)=>{
 // CopyImage(req.file.path);
  MinifyImages();
