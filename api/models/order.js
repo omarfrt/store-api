@@ -20,7 +20,7 @@ const orderSchema = mongoose.Schema({
               email:{type: String, required: true},
               phone:{type: String, required: true},
               address:{type: String, required: true},
-              Cin:{type: String, required: true}},
+              cin:{type: String, required: true}},
   totalPrice: {type:Number, required:true},
   confirmed:{type:Boolean , required : false}
 });
