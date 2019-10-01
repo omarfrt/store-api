@@ -48,7 +48,7 @@ async function sendreceipt(){
 
 
 //handle requests get delete .....
-router.get('/:page', (req, res, next)=>{
+router.get('/page/:page', (req, res, next)=>{
 // in check auth it get sent in the headers with "bearer" in the begining
  // sendreceipt();
   
