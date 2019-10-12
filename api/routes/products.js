@@ -6,15 +6,15 @@ const rimraf = require('rimraf');
 // const imagemin = require('imagemin');
 // const imageminJpegtran = require('imagemin-jpegtran');
 // const imageminPngquant = require('imagemin-pngquant');
-const fs = require('fs');
-const sharp = require('sharp');
+//const fs = require('fs');
+//const sharp = require('sharp');
 
 const storage = multer.diskStorage({
     destination : function(req,file,cb){
       cb(null, './uploads/');
     },
     filename :function(req, file, cb){
-      cb(null, new Date().toISOString() + file.originalname);
+      cb(null,  file.originalname);
     }
 });
 const upload = multer({storage: storage});
@@ -57,8 +57,9 @@ console.log(page);
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productimgl: doc.productimgl,
-        productimgs: doc.productimgs,
+        productimgl: doc.productimgl,//delete this
+        productimgs: doc.productimgs,//delete this
+        productimg: doc.productimg,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -113,8 +114,9 @@ router.get('/search/:bookname',(req, res, next)=>{
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productimgl: doc.productimgl,
-        productimgs: doc.productimgs,
+        productimgl: doc.productimgl,//delte this
+        productimgs: doc.productimgs,//delete this
+        productimg: doc.productimg,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -160,8 +162,9 @@ router.get('/sales',(req, res, next)=>{
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productimgl: doc.productimgl,
-        productimgs: doc.productimgs,
+        productimgl: doc.productimgl,//delete this
+        productimgs: doc.productimgs,//delete this
+        productimg: doc.productimg,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -207,8 +210,9 @@ router.get('/genre/:genre',(req,res,next)=>{
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productimgl: doc.productimgl,
-        productimgs: doc.productimgs,
+        productimgl: doc.productimgl,//delete this
+        productimgs: doc.productimgs,//delete this
+        productimg: doc.productimg,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -257,8 +261,9 @@ router.get('/genre/:genre/:page',(req,res,next)=>{
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productimgl: doc.productimgl,
-        productimgs: doc.productimgs,
+        productimgl: doc.productimgl,//delete this
+        productimgs: doc.productimgs,//delete this
+        productimg: doc.productimg,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -307,8 +312,9 @@ router.get('/hero',(req, res, next)=>{
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productimgl: doc.productimgl,
-        productimgs: doc.productimgs,
+        productimgl: doc.productimgl,//delete this
+        productimgs: doc.productimgs,//delte this
+        productimg: doc.productimg,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -356,11 +362,11 @@ router.get('/brows/:page',(req, res, next)=>{
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productimgl: doc.productimgl,
-        productimgs: doc.productimgs,
+        productimgl: doc.productimgl,//delete this
+        productimgs: doc.productimgs,//delte this
+        productimg: doc.productimg,
         request:{
-          //hna kay3tik link w methode li tdir bach tjbed
-          //gha wa7d lbook , 2000000IQ shit
+          
           type:'GET',
           url:'http://localhost:3000/products/' +doc._id
         }
@@ -436,103 +442,50 @@ router.get('/brows/:page',(req, res, next)=>{
 // 	//=> [{data: <Buffer 89 50 4e …>, path: 'build/images/foo.jpg'}, …]
 //   return [largeImages[0].path,smallImages[0].path]
 //};
-function MinifyImages(){
-  fs.readdir("./uploads", function(err, items) {
-    console.log(items);
+// function MinifyImages(){
+//   fs.readdir("./uploads", function(err, items) {
+//     console.log(items);
 
-    for (var i=0; i<items.length; i++) {
-      sharp('./uploads/'+ items[i])// it needs image path folder doesntwork
-      .jpeg({
-        quality: 20,
-      })
-        .toFile('./images/imgS/'+ items[i], function(err) { // same here it needs the fullpath with new image name to be saved
-          if(!err){
-            console.log("everything is working for small imgs");
-          } else{
-            console.log(err);
-          }
-          // output.jpg is a 300 pixels wide and 200 pixels high image
-          // containing a scaled and cropped version of input.jpg
-        });
-        console.log(items[i]);
-    }
+//     for (var i=0; i<items.length; i++) {
+//       sharp('./uploads/'+ items[i])// it needs image path folder doesntwork
+//       .jpeg({
+//         quality: 20,
+//       })
+//         .toFile('./images/imgS/'+ items[i], function(err) { // same here it needs the fullpath with new image name to be saved
+//           if(!err){
+//             console.log("everything is working for small imgs");
+//           } else{
+//             console.log(err);
+//           }
+//           // output.jpg is a 300 pixels wide and 200 pixels high image
+//           // containing a scaled and cropped version of input.jpg
+//         });
+//         console.log(items[i]);
+//     }
 
-    //larg imgS
+//     //larg imgS
 
-    for (var i=0; i<items.length; i++) {
-      sharp('./uploads/'+ items[i])// it needs image path folder doesntwork
-        .resize(300, 200)
-        .toFile('./images/imgL/'+ items[i], function(err) { // same here it needs the fullpath with new image name to be saved
-          if(!err){
-            console.log("everything is working for Larg imgs");
-          } else{
-            console.log(err);
-          }
-          // output.jpg is a 300 pixels wide and 200 pixels high image
-          // containing a scaled and cropped version of input.jpg
-        });
-        console.log(items[i]);
-    }
+//     for (var i=0; i<items.length; i++) {
+//       sharp('./uploads/'+ items[i])// it needs image path folder doesntwork
+//         .resize(300, 200)
+//         .toFile('./images/imgL/'+ items[i], function(err) { // same here it needs the fullpath with new image name to be saved
+//           if(!err){
+//             console.log("everything is working for Larg imgs");
+//           } else{
+//             console.log(err);
+//           }
+//           // output.jpg is a 300 pixels wide and 200 pixels high image
+//           // containing a scaled and cropped version of input.jpg
+//         });
+//         console.log(items[i]);
+//     }
 
-    // deleting all original largeImages
-    rimraf('./uploads/*', function () { console.log('done'); });
-});
-}
-/////////////////////////////testing//////////
-router.get('/testing/:page',(req, res, next)=>{
-  MinifyImages();
-  const resPerPage =12;
-  const page = req.params.page || 1;
-  Product.find()
-  .sort({'createdAt':-1})
-  .skip((resPerPage * page) - resPerPage)
-  .limit(resPerPage)
-  .select('_id bookname aboutbook authorname isbn genre quantity price rating productimgl productimgs sale')
-  .populate('Product')
-  .exec()
-  .then(docs =>{
-  const response={
-   count:docs.length,
-    products: docs.map(doc=>{
-      return{
-        _id: doc._id,
-        bookname:doc.bookname,
-        sale:doc.sale,
-        aboutbook: doc.aboutbook,
-        authorname: doc.authorname,
-        isbn: doc.isbn,
-        genre: doc.genre,
-        sale: doc.sale,
-        available: doc.available,
-        quantity: doc.quantity,
-        price:doc.price,
-        rating: doc.rating,
-        productimgl: doc.productimgl,
-        productimgs: doc.productimgs,
-        request:{
-          //hna kay3tik link w methode li tdir bach tjbed
-          //gha wa7d lbook , 2000000IQ shit
-          type:'GET',
-          url:'http://localhost:3000/products/' +doc._id
-        }
-      }
-    })
-  };
-
-    res.status(200).json(response);
-  })
-  .catch(err=>{
-    console.log(err);
-    res.status(500).json({
-      error:err
-    });
-  });
-});
+//     // deleting all original largeImages
+//     rimraf('./uploads/*', function () { console.log('done'); });
+// });
+// }
 /////////////////////////////////////////////
-router.post('/',upload.single('productImage') ,(req, res, next)=>{
-// CopyImage(req.file.path);
- MinifyImages();
-//calling and charging construct
+router.post('/',upload.single('productimg') ,(req, res, next)=>{
   const product = new Product({
 
     _id: new mongoose.Types.ObjectId(),
@@ -544,8 +497,7 @@ router.post('/',upload.single('productImage') ,(req, res, next)=>{
     quantity: req.body.quantity,
     price:req.body.price,
     rating: req.body.rating,
-     productImgL: `/images/imgL/${req.file.filename}`,
-     productImgS: `/images/imgS/${req.file.filename}`
+    productimg: `/uploads/${req.file.filename}`
   });
   //saving the product
   product
@@ -612,8 +564,7 @@ router.delete("/:productId", (req, res, next)=>{
           quantity:Number,
           price: Number,
           rating:Number,
-          productimgl:{type: String, required: true},
-          productimgs:{type: String, required: true}
+          productimg:{type:String, required:true},
         }
       }
     });

@@ -14,8 +14,9 @@ const productSchema = mongoose.Schema({
  // quantity:Number,
   price: Number,
   rating:Number,
-  productimgl:{type: String, required: true},
-  productimgs:{type: String, required: true}
+  productimg:{type:String, required:true}
+ // productimgl:{type: String, required: true},
+ // productimgs:{type: String, required: true}
 });
 
  productSchema.plugin(timestamps);
