@@ -7,7 +7,7 @@ const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination : function(req,file,cb){
-      cb(null, './imguploads/');
+      cb(null, './uploads/');
     },
     filename :function(req, file, cb){
       cb(null,file.originalname);
@@ -146,14 +146,11 @@ function MinifyImages(){
 };
 
 
-router.post("/",upload.array("imgUpload"),(req,res,next)=>{
-MinifyImages();
+router.post("/",upload.array("imgupload"),(req,res,next)=>{
+  res.json({
+    message:"we good"
+  });
 
-
-//problem with converting images
-// yikh
-// jpg imgs wont tranform to png to minify them
-// FeelsBadMan
 
 
 });
