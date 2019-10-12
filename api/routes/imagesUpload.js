@@ -95,55 +95,7 @@ const upload = multer({storage: storage});
 // });
 
 
-function MinifyImages(){
 
-  return new Promise(function(resolve, reject) {
-       // Do async job
-          fs.readdir("./imguploads", function(err, items) {
-              if (err) {
-                  reject(err);
-              } else {
-                for (var i=0; i<items.length; i++) {
-                  sharp('./imguploads/'+ items[i])// it needs image path folder doesntwork
-                    .resize(300, 200)
-                    .toFile('./images/imgS/'+ items[i], function(err) { // same here it needs the fullpath with new image name to be saved
-                      if(!err){
-                        console.log("everything is working for small imgs");
-                      } else{
-                        console.log(err);
-                      }
-                      // output.jpg is a 300 pixels wide and 200 pixels high image
-                      // containing a scaled and cropped version of input.jpg
-                    });
-                    console.log(items[i]);
-                }
-
-                //larg imgS
-
-                for (var i=0; i<items.length; i++) {
-                  sharp('./imguploads/'+ items[i])// it needs image path folder doesntwork
-                    .resize(300, 200)
-                    .toFile('./images/imgL/'+ items[i], function(err) { // same here it needs the fullpath with new image name to be saved
-                      if(!err){
-                        console.log("everything is working for Larg imgs");
-                      } else{
-                        console.log(err);
-                      }
-                      // output.jpg is a 300 pixels wide and 200 pixels high image
-                      // containing a scaled and cropped version of input.jpg
-                    });
-                    console.log(items[i]);
-                }
-
-                // deleting all original largeImages
-                rimraf('./imguploads/*', function () { console.log('original images been deleted'); });
-              }
-          })
-      })
-
-
-
-};
 
 
 router.post("/",upload.array("imgupload"),(req,res,next)=>{
