@@ -107,10 +107,22 @@ async function uloadExcel(req, res, next) {
           data: result
         });
         console.log("saving insertMany");
-        Product.insertMany(result);
-        console.log("saved insertMany!!!!!!!!!!!!!!");
+        Product.insertMany(result).then(result=>{
+          console.log(result);
+          res.status(201).json({
+            message:'Created products',
+            createdprudct: result
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          res.status(500).json({
+            error:err
+          })
+        });
+        console.log("saved insertMany finishind successfully");
       });
-      console.log("going to deleteand save");
+      console.log("init delete excel");
       deleteexcel();
 
     } catch (e) {
@@ -136,7 +148,9 @@ async function uloadExcel(req, res, next) {
 router.post('/', (req, res, next) => {
   uloadExcel(req, res, next);
 
-
+  res.json({
+    message: "excel file been uploaded and saved to database"
+  });
 });
 
 module.exports = router;
