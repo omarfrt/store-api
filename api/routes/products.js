@@ -37,7 +37,7 @@ console.log(page);
    .sort({'createdAt':-1})
    .skip((resPerPage * page) - resPerPage)
   .limit(resPerPage)
-  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs sale')
+  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl sale')
   .populate('Product')
   .exec()
   .then(docs =>{
@@ -58,8 +58,6 @@ console.log(page);
         price:doc.price,
         rating: doc.rating,
         productimgl: doc.productimgl,//delete this
-        productimgs: doc.productimgs,//delete this
-        productimg: doc.productimg,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -94,7 +92,7 @@ router.get('/search/:bookname',(req, res, next)=>{
   Product.find({$or:[{bookname: regex},{authorname: regex},{genre:regex}]})
    .sort({'createdAt':-1})
   .limit(10)
-  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs sale')
+  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl sale')
   .populate('Product')
   .exec()
   .then(docs =>{
@@ -115,8 +113,6 @@ router.get('/search/:bookname',(req, res, next)=>{
         price:doc.price,
         rating: doc.rating,
         productimgl: doc.productimgl,//delte this
-        productimgs: doc.productimgs,//delete this
-        productimg: doc.productimg,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -142,7 +138,7 @@ router.get('/sales',(req, res, next)=>{
   Product.find({sale:true})
    .sort({ 'createdAt':-1})
   .limit(5)
-  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs sale')
+  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl sale')
   .populate('Product')
   .exec()
   .then(docs =>{
@@ -163,8 +159,6 @@ router.get('/sales',(req, res, next)=>{
         price:doc.price,
         rating: doc.rating,
         productimgl: doc.productimgl,//delete this
-        productimgs: doc.productimgs,//delete this
-        productimg: doc.productimg,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -190,7 +184,7 @@ router.get('/genre/:genre',(req,res,next)=>{
   Product.find({genre:regex})
   .sort({'createdAt':-1})
   .limit(10)
-  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs sale')
+  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl sale')
   .populate('Product')
   .exec()
   .then(docs =>{
@@ -211,8 +205,6 @@ router.get('/genre/:genre',(req,res,next)=>{
         price:doc.price,
         rating: doc.rating,
         productimgl: doc.productimgl,//delete this
-        productimgs: doc.productimgs,//delete this
-        productimg: doc.productimg,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -241,7 +233,7 @@ router.get('/genre/:genre/:page',(req,res,next)=>{
   .sort({'createdAt':-1})
   .limit(resPerPage)
   .skip((resPerPage * page) - resPerPage)
-  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl productimgs sale')
+  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl sale')
   .populate('Product')
   .exec()
   .then(docs =>{
@@ -261,9 +253,7 @@ router.get('/genre/:genre/:page',(req,res,next)=>{
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productimgl: doc.productimgl,//delete this
-        productimgs: doc.productimgs,//delete this
-        productimg: doc.productimg,
+        productimgl: doc.productimgl,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -292,7 +282,7 @@ router.get('/hero',(req, res, next)=>{
   Product.find()
    .sort({ 'createdAt':-1})
   .limit(7)
-  .select('_id bookname aboutbook authorname isbn genre quantity price rating productimgl productimgs sale')
+  .select('_id bookname aboutbook authorname isbn genre quantity price rating productimgl sale')
   .populate('Product')
   .exec()
   .then(docs =>{
@@ -312,9 +302,7 @@ router.get('/hero',(req, res, next)=>{
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productimgl: doc.productimgl,//delete this
-        productimgs: doc.productimgs,//delte this
-        productimg: doc.productimg,
+        productimgl: doc.productimgl,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -342,7 +330,7 @@ router.get('/brows/:page',(req, res, next)=>{
   .sort({'createdAt':-1})
   .skip((resPerPage * page) - resPerPage)
   .limit(resPerPage)
-  .select('_id bookname aboutbook authorname isbn genre quantity price rating productimgl productimgs sale')
+  .select('_id bookname aboutbook authorname isbn genre quantity price rating productimgl sale')
   .populate('Product')
   .exec()
   .then(docs =>{
@@ -362,9 +350,7 @@ router.get('/brows/:page',(req, res, next)=>{
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productimgl: doc.productimgl,//delete this
-        productimgs: doc.productimgs,//delte this
-        productimg: doc.productimg,
+        productimgl: doc.productimgl,
         request:{
           
           type:'GET',
@@ -497,7 +483,7 @@ router.post('/',upload.single('productimg') ,(req, res, next)=>{
     quantity: req.body.quantity,
     price:req.body.price,
     rating: req.body.rating,
-    productimg: `/uploads/${req.file.filename}`
+    productimgl: `/images/imgL/${req.file.filename}`
   });
   //saving the product
   product
@@ -564,7 +550,7 @@ router.delete("/:productId", (req, res, next)=>{
           quantity:Number,
           price: Number,
           rating:Number,
-          productimg:{type:String, required:true},
+          productimgl:{type:String, required:true},
         }
       }
     });
