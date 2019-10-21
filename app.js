@@ -3,8 +3,10 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const checkAuth = require('./api/middleware/check-auth');
 
+
+const checkAuth = require('./api/middleware/check-auth');
+const adminRoutes = require('./api/routes/_admin');
 const usersRoutes = require('./api/routes/user');
 const productRoutes = require('./api/routes/products');
 const ordersRoutes = require('./api/routes/orders');
@@ -38,6 +40,7 @@ app.use((req, res, next) => {
 app.use('/products', productRoutes);
 app.use('/orders', ordersRoutes);
 app.use('/user', usersRoutes);
+app.use('/admin',adminRoutes);
 app.use('/excelProduct',checkAuth, productexRoutes);
 app.use('/imagesUpload',checkAuth, uploadimgsRoutes);
 
