@@ -3,6 +3,7 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const checkAuth = require('./api/middleware/check-auth');
 
 const usersRoutes = require('./api/routes/user');
 const productRoutes = require('./api/routes/products');
@@ -37,8 +38,8 @@ app.use((req, res, next) => {
 app.use('/products', productRoutes);
 app.use('/orders', ordersRoutes);
 app.use('/user', usersRoutes);
-app.use('/excelProduct', productexRoutes);
-app.use('/imagesUpload', uploadimgsRoutes);
+app.use('/excelProduct',checkAuth, productexRoutes);
+app.use('/imagesUpload',checkAuth, uploadimgsRoutes);
 
 
 //handling errors
