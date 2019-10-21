@@ -27,7 +27,7 @@ userSchema.plugin(timestamps);
 ### Request
 
 ```
-Post http://localhost:3000/user/
+Post http://localhost:3000/user/login
 ```
 
   with body 
