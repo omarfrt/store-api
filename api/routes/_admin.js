@@ -141,7 +141,7 @@ router.patch("/orders/:orderId",checkAuth,(req, res, next)=>{
     .exec()
     .then(result=>{
       res.status(200).json({
-        message:'order updated',
+        message:'order confirmed',
         request:{
           type:'GET',
           url:'http://localhost:2000/orders/'+ id
@@ -154,7 +154,35 @@ router.patch("/orders/:orderId",checkAuth,(req, res, next)=>{
         error:err
       });
     });
+    
+    
+    
     sendreceipt();
+  
+  
+  
+   Order.findById(id)
+  .exec()
+  .then(order =>{
+    const productids = order.products.map(ids=>ids._id);
+    Product.updateMany({_id:productids},{$inc:{quantity:-1}})
+    .exec()
+    .then()
+    .catch();
+    res.status(200).json({
+      order: productids,
+      request:{
+        type:'GET',
+        url:'http://localhost:3000/orders/'
+      }
+    });
+  })
+  .catch(err=>{
+    res.status(500).json({
+      error: err
+    });
+  });
+
   });
 
   ////////////////////////////////////////////// admin Product requets//////////////////////////////////////
