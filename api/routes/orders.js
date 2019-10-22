@@ -47,47 +47,6 @@ async function sendreceipt(){
 
 
 
-//handle requests get delete .....
-router.get('/page/:page', checkAuth, (req, res, next)=>{
-// in check auth it get sent in the headers with "bearer" in the begining
- // sendreceipt();
-  
- const resPerPage =20;
- const page = req.params.page || 1;
-  Order.find()
-  .sort({'createdAt':-1})
-  .skip((resPerPage * page) - resPerPage)
-  .limit(resPerPage)
-  .exec()
-  .then(docs=>{
-    const response = {
-      count:docs.length,
-      orders: docs.map(doc=>{
-        return{
-          _id: doc._id,
-          product: doc.products,
-          user: doc.user,
-          totalPrice:doc.totalPrice,
-          confirmed:doc.confirmed,
-          updatedAt:doc.updatedAt,
-          createdAt:doc.createdAt,
-          request:{
-            type :'GET',
-            url:'http://localhost:3000/orders/'+ doc._id
-          }
-        }
-      })
-    };
-    res.status(200).json(response);
-
-  })
-  .catch(err=>{
-    res.status(500).json({
-      error:err
-    });
-  });
-});
-
 
 
 router.post('/',(req, res, next)=>{
@@ -95,9 +54,6 @@ const total = req.body.products.reduce((acc,product)=>{
   acc += product.price ;
   return acc;
 },0)
-
- 
-
 const order= new Order({
   _id: new mongoose.Types.ObjectId,
   products:req.body.products,
@@ -137,71 +93,9 @@ const order= new Order({
 });
 
 
-router.get('/:orderId',(req, res, next)=>{
-    Order.findById(req.params.orderId)
-    .populate('order')
-    .exec()
-    .then(order =>{
-      res.status(200).json({
-        order: order,
-        request:{
-          type:'GET',
-          url:'http://localhost:3000/orders/'
-        }
-      });
-    })
-    .catch(err=>{
-      res.status(500).json({
-        error: err
-      });
-    });
-});
 
-router.delete('/:orderId',(req, res, next)=>{
-    Order.remove({
-      _id: req.params.orderId
-    })
-    .exec()
-    .then(result =>{
-      res.status(200).json({
-      message:'order been deleted',
-        request:{
-          type:'POSt',
-          url:'http://localhost:3000/orders/',
-          body:{productId:'ID', quantity:'Number'}
-        }
-      });
-    })
-    .catch(err=>{
-      res.status(500).json({
-        error: err
-      });
-    });
-});
 
-router.patch("/:productId",(req, res, next)=>{
-  const id= req.params.productId;
-  console.log(id);
-  
-  Order.update({_id:id},{$set:{confirmed:true}})
-  .exec()
-  .then(result=>{
-    res.status(200).json({
-      message:'order updated',
-      request:{
-        type:'GET',
-        url:'http://localhost:2000/orders/'+ id
-      }
-    });
-  })
-  .catch(err=>{
-    console.log(err);
-    res.status(500).json({
-      error:err
-    });
-  });
-  sendreceipt();
-});
+
 
 
 
