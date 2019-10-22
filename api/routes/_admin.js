@@ -47,7 +47,7 @@ async function sendreceipt(){
 
   
 //handle requests get delete .....
-router.get('/orders/page/:page',  (req, res, next)=>{
+router.get('/orders/page/:page', checkAuth, (req, res, next)=>{
     // in check auth it get sent in the headers with "bearer" in the begining
      // sendreceipt();
       
@@ -90,7 +90,7 @@ router.get('/orders/page/:page',  (req, res, next)=>{
 
 
     
-router.get('/orders/:orderId',(req, res, next)=>{
+router.get('/orders/:orderId',checkAuth,(req, res, next)=>{
     Order.findById(req.params.orderId)
     .populate('order')
     .exec()
@@ -111,7 +111,7 @@ router.get('/orders/:orderId',(req, res, next)=>{
 });
 
 
-router.delete('/orders/:orderId',(req, res, next)=>{
+router.delete('/orders/:orderId',checkAuth,(req, res, next)=>{
     Order.remove({
       _id: req.params.orderId
     })
@@ -133,7 +133,7 @@ router.delete('/orders/:orderId',(req, res, next)=>{
     });
 });
 
-router.patch("/orders/:orderId",(req, res, next)=>{
+router.patch("/orders/:orderId",checkAuth,(req, res, next)=>{
     const id= req.params.orderId;
     console.log(id);
     
@@ -169,7 +169,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage: storage});
 
-router.post('/products',upload.single('productimg') ,(req, res, next)=>{
+router.post('/products',upload.single('productimg') ,checkAuth,(req, res, next)=>{
     const product = new Product({
   
       _id: new mongoose.Types.ObjectId(),
@@ -203,7 +203,7 @@ router.post('/products',upload.single('productimg') ,(req, res, next)=>{
   });
   
   
-  router.delete("/products/:productId", (req, res, next)=>{
+  router.delete("/products/:productId",checkAuth, (req, res, next)=>{
 
     const id= req.params.productId;
     Product.remove({_id: is})
@@ -238,7 +238,7 @@ router.post('/products',upload.single('productimg') ,(req, res, next)=>{
   });
 
 
-  router.patch("/products/:productId",(req, res, next)=>{
+  router.patch("/products/:productId",checkAuth,(req, res, next)=>{
     const id= req.params.productId;
     const updateOps = {};
     for(const ops of req.body ){

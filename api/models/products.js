@@ -10,7 +10,7 @@ const productSchema = mongoose.Schema({
   genre: {type: String, required: true},
   sale: {type: Boolean, required: false},
   available: {type: Boolean, required: false},
- // quantity:Number,
+  quantity:{type: Number, required: false},
   price: Number,
   rating:Number,
   productimgl:{type: String, required: true},
