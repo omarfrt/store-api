@@ -100,4 +100,49 @@ get http://localhost:2000/products/:productId
   ```
   
 
+## GET multiple products with array of ids
+### Request 
+
+```
+get http://localhost:2000/products/recheck
+
+```
+with in body
+```
+{
+	"ids":["5d59d3922eff951de89c50ff","5d59d3922eff951de89c50fe"]
+}
+```
+### Response
+
+```
+        _id: doc._id,
+      bookname:docbookname,
+        about: doc.aboutBook,
+        author: doc.authorName,
+        isbn: doc.isbn,
+        genre: doc.genre,
+        quantity: doc.quantity,
+        price:doc.price,
+        rating: doc.rating,
+        productImgL: doc.productImgL,
+        productImgS: doc.productImgS,
+        request:{
+          //hna kay3tik link w methode li tdir bach tjbed
+          //gha wa7d lbook , 2000000IQ shit
+          type:'GET',
+          url:'http://localhost:2000/products/' +doc._id
+```
+  with a status of 200
+ 
+ ### Error Response
+ 
+returns a jason 
+
+```
+error:err
+```
+
+  with a status off 500
+
 

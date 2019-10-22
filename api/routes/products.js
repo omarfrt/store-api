@@ -396,4 +396,49 @@ router.get('/view/:productId', (req, res, next)=>{
   });
 });
 
+router.get('/recheck',(req, res, next)=>{
+  const ids= req.body.ids;
+  console.log(ids+"das ids motha focka");
+  
+  Product.find()
+  .where('_id')
+  .in(ids)
+  .exec()
+  .then(docs =>{
+    const response={
+     count:docs.length,
+      products: docs.map(doc=>{
+        return{
+          _id: doc._id,
+          bookname:doc.bookname,
+          sale:doc.sale,
+          aboutbook: doc.aboutbook,
+          authorname: doc.authorname,
+          isbn: doc.isbn,
+          genre: doc.genre,
+          sale: doc.sale,
+          available: doc.available,
+          quantity: doc.quantity,
+          price:doc.price,
+          rating: doc.rating,
+          productimgl: doc.productimgl,
+          request:{
+            
+            type:'GET',
+            url:'http://localhost:3000/products/' +doc._id
+          }
+        }
+      })
+    };
+  
+      res.status(200).json(response);
+    })
+    .catch(err=>{
+      console.log(err);
+      res.status(500).json({
+        error:err
+      });
+    });
+});
+
 module.exports = router;
