@@ -189,7 +189,7 @@ router.patch("/orders/:orderId",checkAuth,(req, res, next)=>{
         
 const storage = multer.diskStorage({
     destination : function(req,file,cb){
-      cb(null, './uploads/');
+      cb(null, './images/imgL/');
     },
     filename :function(req, file, cb){
       cb(null,  file.originalname);
@@ -197,7 +197,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage: storage});
 
-router.post('/products',checkAuth,upload.single('productimg') ,(req, res, next)=>{
+router.post('/products',upload.single('productimg'),checkAuth ,(req, res, next)=>{
     const product = new Product({
   
       _id: new mongoose.Types.ObjectId(),
@@ -209,7 +209,7 @@ router.post('/products',checkAuth,upload.single('productimg') ,(req, res, next)=
       quantity: req.body.quantity,
       price:req.body.price,
       rating: req.body.rating,
-      productimgl: `/images/imgL/${req.file.filename}`
+      productimgl: req.file.filename
     });
     //saving the product
     product

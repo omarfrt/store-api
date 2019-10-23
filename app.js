@@ -20,8 +20,7 @@ mongoose.connect('mongodb+srv://jlo:' + process.env.MONGO_ATLAS_PW + '@node-rest
 
 
 app.use(morgan('dev'));
-app.use('/images', express.static('images'));// delete this later 
-app.use('/uploads', express.static('uploads'));
+app.use('/images', express.static('images'));
 app.use(bodyParser.urlencoded({
   extended: false
 }));
