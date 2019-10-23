@@ -396,7 +396,7 @@ router.get('/view/:productId', (req, res, next)=>{
   });
 });
 
-router.get('/recheck',(req, res, next)=>{
+router.post('/recheck',(req, res, next)=>{
   const ids= req.body.ids;
   console.log(ids+"das ids motha focka");
   
