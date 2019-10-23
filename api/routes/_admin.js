@@ -197,7 +197,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage: storage});
 
-router.post('/products',upload.single('productimg') ,checkAuth,(req, res, next)=>{
+router.post('/products',upload.single('productimg') ,(req, res, next)=>{
     const product = new Product({
   
       _id: new mongoose.Types.ObjectId(),
