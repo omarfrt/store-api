@@ -234,7 +234,7 @@ router.post('/products',upload.single('productimg'),checkAuth ,(req, res, next)=
   router.delete("/products/:productId",checkAuth, (req, res, next)=>{
 
     const id= req.params.productId;
-    Product.remove({_id: is})
+    Product.remove({_id: id})
     .exec()
     .then(result =>{
       res.status(200).json({
