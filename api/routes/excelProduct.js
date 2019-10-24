@@ -7,6 +7,7 @@ const fs = require('fs');
 const xlstojson = require("xls-to-json-lc");
 const xlsxtojson = require("xlsx-to-json-lc");
 //const json = require("./test.json");
+const checkAuth= require('../middleware/check-auth');
 
 const Product = require('../models/products');
 
@@ -145,12 +146,11 @@ async function uloadExcel(req, res, next) {
 
 
 
-router.post('/', (req, res, next) => {
+router.post('/', checkAuth, (req, res, next) => {
   uloadExcel(req, res, next);
+  console.log(req.file);
+  
 
-  res.json({
-    message: "excel file been uploaded and saved to database"
-  });
 });
 
 module.exports = router;
