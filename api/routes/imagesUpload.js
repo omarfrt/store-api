@@ -4,6 +4,7 @@ const multer = require('multer');
 const rimraf = require('rimraf');
 const sharp = require('sharp');
 const fs = require('fs');
+const checkAuth= require('../middleware/check-auth');
 
 const storage = multer.diskStorage({
     destination : function(req,file,cb){
@@ -13,7 +14,7 @@ const storage = multer.diskStorage({
       cb(null,file.originalname);
     }
 });
-const upload = multer({storage: storage});
+const upload = multer({storage: storage}).array("imgupload");
 
 //
 // async function MinifyImages(){
@@ -94,15 +95,56 @@ const upload = multer({storage: storage});
 //     rimraf('./imguploads/*', function () { console.log('original images been deleted'); });
 // });
 
+ 
+// app.post('/profile', function (req, res) {
+//   upload(req, res, function (err) {
+//     if (err instanceof multer.MulterError) {
+//       // A Multer error occurred when uploading.
+//     } else if (err) {
+//       // An unknown error occurred when uploading.
+//     }
+ 
+//     // Everything went fine.
+//   })
+// })
 
 
 
+router.post("/",checkAuth, (req,res,next)=>{
+ 
+  upload(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      
+        console.log(err);
+        res.status(500).json({
+          error:err
+        })
+      
+    } else if (err) {
+      
+        console.log(err);
+        res.status(500).json({
+          error:err
+        })
+      
+      // An unknown error occurred when uploading.
+    }
+    res.json({
+      message:"we good",
+      request: req.body
+      //msg2:  req.file.filename
+    });
+    console.log(req.files);
+    
+    // Everything went fine.
+  })
+ 
 
-router.post("/",upload.array("imgupload"),(req,res,next)=>{
-  res.json({
-    message:"we good"
-  });
+ 
 
+ // console.log( req.file.filename);
+  
 
 
 });
