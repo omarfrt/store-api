@@ -83,10 +83,12 @@ const order= new Order({
         error:err
       });
     });
-
+  });
 
     
     router.get('/:orderId',(req, res, next)=>{
+      
+      
       Order.findById(req.params.orderId)
       .populate('order')
       .exec()
@@ -109,7 +111,7 @@ const order= new Order({
 
 
 
-});
+
 
 
 
