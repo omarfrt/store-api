@@ -268,16 +268,6 @@ router.post('/products',upload.single('productimg'),checkAuth ,(req, res, next)=
 
   router.patch("/products/:productId",checkAuth,(req, res, next)=>{
     const id= req.params.productId;
-    const updateOps = [];
-    console.log(req.body);
-    
-    for(const ops of req.body ){
-      updateOps[ops.propName]=ops.value;
-      
-      
-    }
-    
-    
     Product.updateOne({_id:id},{$set:req.body})
     .exec()
     .then(result=>{
