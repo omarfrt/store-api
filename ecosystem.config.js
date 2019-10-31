@@ -1,7 +1,7 @@
 module.exports = {
     apps: [{
       name: 'store-api',
-      script: './server.js'
+      script: 'server.js'
     }],
     deploy: {
       production: {
