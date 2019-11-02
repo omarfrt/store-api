@@ -13,8 +13,8 @@ const ordersRoutes = require('./api/routes/orders');
 const productexRoutes = require('./api/routes/excelProduct');
 const uploadimgsRoutes = require('./api/routes/imagesUpload');
 
-
-mongoose.connect('mongodb+srv://jlo:' + process.env.MONGO_ATLAS_PW + '@node-rest-shop-ijnnd.mongodb.net/test?retryWrites=true&w=majority', {
+const pwddb = 'qwert12345A';
+mongoose.connect('mongodb+srv://jlo:' + pwddb + '@node-rest-shop-ijnnd.mongodb.net/test?retryWrites=true&w=majority', {
   useNewUrlParser: true
 });
 
