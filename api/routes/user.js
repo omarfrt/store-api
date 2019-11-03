@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 const User = require('../models/user');
 const checkAuth = require('../middleware/check-auth');
-
+const pwdjwt= 'secret'
 
 router.post("/signup",checkAuth, (req, res, next) => {
   User.find({ email: req.body.email })
@@ -69,7 +69,7 @@ router.post("/login", (req, res, next) => {
               email: user[0].email,
               userId: user[0]._id
             },
-            process.env.JWT_KEY,
+             pwdjwt,
             {
                 expiresIn: "24h"
             }
