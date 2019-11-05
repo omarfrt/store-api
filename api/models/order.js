@@ -23,7 +23,7 @@ const orderSchema = mongoose.Schema({
               address:{type: String, required: true},
               cin:{type: String, required: true}},
   totalPrice: {type:Number, required:true},
-  paytype:{type:String, required:true},
+  paymentmethod:{type:String, required:true},
   confirmed:{type:Boolean , required : false}
 });
 orderSchema.plugin(timestamps);

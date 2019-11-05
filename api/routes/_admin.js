@@ -66,7 +66,7 @@ router.get('/orders/page/:page', checkAuth, (req, res, next)=>{
               _id: doc._id,
               product: doc.products,
               user: doc.user,
-              paytype: doc.paytype,
+              paymentmethod: doc. paymentmethod,
               totalPrice:doc.totalPrice,
               confirmed:doc.confirmed,
               updatedAt:doc.updatedAt,
