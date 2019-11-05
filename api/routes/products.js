@@ -226,10 +226,10 @@ router.get('/genre/:genre',(req,res,next)=>{
 
 ////////////////////// genre witch pages/////////////
 router.get('/genre/:genre/:page',(req,res,next)=>{
-  //var regex = new RegExp(req.params.bookname, 'i');
+  var regex = new RegExp(req.params.genre, 'i');
   const resPerPage =10;
   const page = req.params.page || 1;
-  Product.find({genre:req.params.genre})
+  Product.find({genre:regex})
   .sort({'createdAt':-1})
   .limit(resPerPage)
   .skip((resPerPage * page) - resPerPage)
