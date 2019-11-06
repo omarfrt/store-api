@@ -50,17 +50,27 @@ async function sendreceipt(){
 
 
 router.post('/',(req, res, next)=>{
-const total = req.body.products.reduce((acc,product)=>{
+const tot = req.body.products.reduce((acc,product)=>{
   acc += product.price ;
   return acc;
-},0)
+},0);
+
+function total(tot){
+  if (tot < 160) {
+    return tot+45;
+  }
+  if (tot < 800) {
+    return tot+30;
+  }
+  return tot;
+}
 const order= new Order({
   _id: new mongoose.Types.ObjectId,
   products:req.body.products,
   user:req.body.user,
   paypalinfo: req.body.paypalinfo,
   paymentmethod: req.body.paymentmethod,
-  totalPrice: total
+  totalPrice: total(tot)
 });
  order.save()
     .then(result => {
