@@ -68,7 +68,7 @@ const order= new Order({
           createdOrder:{
             _id: result._id,
             product : result.product,
-            paymentmethod: res.paymentmethod,
+            paymentmethod: result.paymentmethod,
             totalPrice: result.totalPrice
           },
           request:{
