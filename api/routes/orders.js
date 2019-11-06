@@ -58,6 +58,7 @@ const order= new Order({
   _id: new mongoose.Types.ObjectId,
   products:req.body.products,
   user:req.body.user,
+  paypalinfo: req.body.paypalinfo,
   paymentmethod: req.body.paymentmethod,
   totalPrice: total
 });
@@ -69,6 +70,7 @@ const order= new Order({
           createdOrder:{
             _id: result._id,
             product : result.product,
+            paypalinfo: result.paypalinfo,
             paymentmethod: result.paymentmethod,
             totalPrice: result.totalPrice
           },
