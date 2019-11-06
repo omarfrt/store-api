@@ -27,7 +27,9 @@ const orderSchema = mongoose.Schema({
               payer:[ {name:{given_name:{type: String, required: false},
               surname:{type: String, required: false}},
                 email_address:{type: String, required: false},
-                }]},
+                }],
+              purchase_units:[{amount:{currency_code:{type: String, required: false},
+                              value:{type: String, required: false}}}]},
   totalPrice: {type:Number, required:true},
   paymentmethod:{type:String, required:true},
   confirmed:{type:Boolean , required : false}
