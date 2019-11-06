@@ -58,6 +58,7 @@ const order= new Order({
   _id: new mongoose.Types.ObjectId,
   products:req.body.products,
   user:req.body.user,
+  paymentmethod: req.body.paymentmethod,
   totalPrice: total
 });
  order.save()
