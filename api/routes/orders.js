@@ -11,15 +11,15 @@ const checkAuth = require('../middleware/check-auth');
 
 async function sendreceipt(){
 
-  let testAccount = await nodemailer.createTestAccount();
+ // let testAccount = await nodemailer.createTestAccount();
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
+    host: "smtp.gmail.com",
+    
     secure: false, // true for 465, false for other ports
     auth: {
-      user: testAccount.user, // generated ethereal user
-      pass: testAccount.pass // generated ethereal password
+      user: "iroonix5@gmail.com", // generated ethereal user
+      pass: "qwert12345A" // generated ethereal password
     },
     tls:{
       rejectUnauthorized:false
@@ -97,6 +97,7 @@ const order= new Order({
         error:err
       });
     });
+    sendreceipt();
   });
 
     
