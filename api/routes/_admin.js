@@ -289,7 +289,31 @@ router.post('/products',upload.single('productimg'),checkAuth ,(req, res, next)=
     });
   });
   
+  router.patch("/products/sale/:productId",checkAuth,(req, res, next)=>{
+    const id= req.params.productId;
+    console.log(id);
+    
+    Product.update({_id:id},{$set:{sale:true}})
+    .exec()
+    .then(result=>{
+      res.status(200).json({
+        message:'product updated',
+        request:{
+          type:'GET',
+          url:'/products/sale/'+ id
+        }
+      });
+    })
+    .catch(err=>{
+      console.log(err);
+      res.status(500).json({
+        error:err
+      });
+    });
+    
   
+
+  });
 
 
   module.exports= router;
