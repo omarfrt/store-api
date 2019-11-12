@@ -211,7 +211,10 @@ router.post('/products',upload.single('productimg'),checkAuth ,(req, res, next)=
       quantity: req.body.quantity,
       price:req.body.price,
       rating: req.body.rating,
-      productimgl: req.file.filename
+      productimgl: req.file.filename,
+      publisher:req.body.publisher,
+          productdimensions:req.body.productdimensions,
+          language: req.body.language,
     });
     //saving the product
     product

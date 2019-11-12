@@ -15,6 +15,9 @@ const orderSchema = mongoose.Schema({
   price: Number,
   rating:Number,
   productimgl:{type: String, required: true},
+  publisher:{type: String, required: true},
+  productdimensions:{type: String, required: true},
+  language:{type: String, required: true}
   }],
   user:     { firstname:{type: String, required: true},
               lastname:{type: String, required: true},

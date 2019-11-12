@@ -57,7 +57,10 @@ console.log(page);
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productimgl: doc.productimgl,//delete this
+        productimgl: doc.productimgl,
+        publisher:doc.publisher,
+          productdimensions:doc.productdimensions,
+          language: doc.language,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -112,7 +115,10 @@ router.get('/search/:bookname',(req, res, next)=>{
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productimgl: doc.productimgl,//delte this
+        productimgl: doc.productimgl,
+        publisher:doc.publisher,
+          productdimensions:doc.productdimensions,
+          language: doc.language,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -158,7 +164,10 @@ router.get('/sales',(req, res, next)=>{
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productimgl: doc.productimgl,//delete this
+        productimgl: doc.productimgl,
+        publisher:doc.publisher,
+          productdimensions:doc.productdimensions,
+          language: doc.language,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -204,7 +213,10 @@ router.get('/genre/:genre',(req,res,next)=>{
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
-        productimgl: doc.productimgl,//delete this
+        productimgl: doc.productimgl,
+        publisher:doc.publisher,
+          productdimensions:doc.productdimensions,
+          language: doc.language,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -254,6 +266,9 @@ router.get('/genre/:genre/:page',(req,res,next)=>{
         price:doc.price,
         rating: doc.rating,
         productimgl: doc.productimgl,
+        publisher:doc.publisher,
+          productdimensions:doc.productdimensions,
+          language: doc.language,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -303,6 +318,9 @@ router.get('/hero',(req, res, next)=>{
         price:doc.price,
         rating: doc.rating,
         productimgl: doc.productimgl,
+        publisher:doc.publisher,
+          productdimensions:doc.productdimensions,
+          language: doc.language,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -351,6 +369,9 @@ router.get('/brows/:page',(req, res, next)=>{
         price:doc.price,
         rating: doc.rating,
         productimgl: doc.productimgl,
+        publisher:doc.publisher,
+          productdimensions:doc.productdimensions,
+          language: doc.language,
         request:{
           
           type:'GET',
@@ -422,6 +443,9 @@ router.post('/recheck',(req, res, next)=>{
           price:doc.price,
           rating: doc.rating,
           productimgl: doc.productimgl,
+          publisher:doc.publisher,
+          productdimensions:doc.productdimensions,
+          language: doc.language,
           request:{
             
             type:'GET',

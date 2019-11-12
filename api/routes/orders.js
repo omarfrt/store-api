@@ -97,7 +97,7 @@ const order= new Order({
         error:err
       });
     });
-    sendreceipt();
+   // sendreceipt(); return to this when you're done !!!!!!!!!!!!!!!!!!!
   });
 
     
