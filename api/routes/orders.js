@@ -7,14 +7,29 @@ const Order = require('../models/order');
 const Product = require ('../models/products');
 const checkAuth = require('../middleware/check-auth');
 
+const htmlParser = (order)=>{
+  const {user,totalPrice, products, paymentmethod}=order
+  const {firstname,lastname} = user;
 
-
-async function sendreceipt(){
-
+  return (`
+  <h1>Hello ${firstname},</h1>
+  <p>
+  Your order has been placed with a total of ${totalPrice} Dh, paid by ${paymentmethod};
+  <h2>Your Books</h2>
+  ${products.map((item)=>(
+    `<p>
+        ${item.bookname}
+    </p>`
+  ))}
+  </p>
+`)
+}
+async function sendreceipt(order){
+ //
  // let testAccount = await nodemailer.createTestAccount();
-  // create reusable transporter object using the default SMTP transport
-  let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
+ // create reusable transporter object using the default SMTP transport
+ let transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
     
     secure: false, // true for 465, false for other ports
     auth: {
@@ -25,14 +40,13 @@ async function sendreceipt(){
       rejectUnauthorized:false
     }
   });
-
+  
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '"Fred Foo 👻" <jlo-16643a@inbox.mailtrap.io>', // sender address
-    to: "omarfertat96@gmail.com, jlo-16643a@inbox.mailtrap.io", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world? mailing khedam f api aller public dyal tanger weeeeeeee. had mail tsayfet mn store-api message if you get this. jlo with love and effection <3 </b>" // html body
+    to: order.user.email, // list of receivers
+    subject: 'MexiqueBookShop || Your Order has been placed.', // Subject line
+    html: htmlParser(order) // html body
   });
 
   console.log("Message sent: %s", info.messageId);
@@ -97,7 +111,7 @@ const order= new Order({
         error:err
       });
     });
-   // sendreceipt(); return to this when you're done !!!!!!!!!!!!!!!!!!!
+    sendreceipt(order);
   });
 
     

@@ -1,6 +1,6 @@
-///////////////////////////////// THIS IS FOR THE ADMIN !!!!!!!! ////////////////////////////////////
+//////////////////////////////////// THIS IS FOR A NORMAL CLIENT ///////////////////
 const jwt = require('jsonwebtoken');
-const pwdjwt= 'secret'
+const pwdjwt= '3ezi3endo2dh'
 
 module.exports = (req, res, next) => {
     try {

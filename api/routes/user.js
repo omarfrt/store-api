@@ -1,3 +1,4 @@
+/////////////////////// THIS IS FOR THE ADMIN!!!!///////////
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
@@ -31,13 +32,13 @@ router.post("/signup",checkAuth, (req, res, next) => {
             user
               .save()
               .then(result => {
-                console.log(result);
+               
                 res.status(201).json({
                   message: "User created"
                 });
               })
               .catch(err => {
-                console.log(err);
+                
                 res.status(500).json({
                   error: err
                 });
@@ -85,7 +86,7 @@ router.post("/login", (req, res, next) => {
       });
     })
     .catch(err => {
-      console.log(err);
+      
       res.status(500).json({
         error: err
       });
@@ -104,7 +105,7 @@ router.delete("/:userId",checkAuth, (req, res, next) => {
       });
     })
     .catch(err => {
-      console.log(err);
+      
       res.status(500).json({
         error: err
       });

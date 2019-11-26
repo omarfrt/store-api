@@ -12,6 +12,8 @@ const productRoutes = require('./api/routes/products');
 const ordersRoutes = require('./api/routes/orders');
 const productexRoutes = require('./api/routes/excelProduct');
 const uploadimgsRoutes = require('./api/routes/imagesUpload');
+const buyerRoutes = require('./api/routes/buyers');
+const buyerloginRoutes = require('./api/routes/buyerlogin');
 
 const pwddb = 'qwert12345A';
 mongoose.connect('mongodb+srv://jlo:' + pwddb + '@node-rest-shop-ijnnd.mongodb.net/test?retryWrites=true&w=majority', {
@@ -39,6 +41,8 @@ app.use((req, res, next) => {
 app.use('/products', productRoutes);
 app.use('/orders', ordersRoutes);
 app.use('/user', usersRoutes);
+app.use('/buyer',buyerRoutes);
+app.use('/login', buyerloginRoutes);
 app.use('/admin',checkAuth,adminRoutes);
 app.use('/excelProduct',checkAuth, productexRoutes);
 app.use('/imagesUpload',checkAuth, uploadimgsRoutes);

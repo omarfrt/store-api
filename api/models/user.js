@@ -1,3 +1,4 @@
+//////////////// THIS IS FOR THE ADMIN ! ///////////////
 const mongoose = require('mongoose');
 const timestamps = require('mongoose-timestamp');
 
