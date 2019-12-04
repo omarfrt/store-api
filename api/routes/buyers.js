@@ -90,7 +90,7 @@ buyer.save()
      
     const resPerPage =20;
     const page = req.params.page || 1;
-     Order.find({firstname: req.body.firstname})
+     Order.find({email: req.body.email})
      .sort({'createdAt':-1})
      .skip((resPerPage * page) - resPerPage)
      .limit(resPerPage)
