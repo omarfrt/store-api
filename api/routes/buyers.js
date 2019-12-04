@@ -81,6 +81,7 @@ buyer.save()
      error:err
    });
  });
+});
 
 
 
@@ -122,5 +123,5 @@ buyer.save()
      });
    });
  
-});
+
 module.exports = router;
