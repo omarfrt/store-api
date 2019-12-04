@@ -90,7 +90,7 @@ buyer.save()
      
     const resPerPage =20;
     const page = req.params.page || 1;
-     Order.find({$and:[{firstname: req.body.firstname},{lastname: req.body.lastname},{email:req.body.email},{cin:req.body.cin}]})
+     Order.find({firstname: req.body.firstname})
      .sort({'createdAt':-1})
      .skip((resPerPage * page) - resPerPage)
      .limit(resPerPage)
