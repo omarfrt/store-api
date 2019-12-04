@@ -84,7 +84,7 @@ buyer.save()
 
 
 
- router.get('/orders/page/:page', checkAuth, (req, res, next)=>{
+ router.post('/orders/page/:page', checkAuth, (req, res, next)=>{
    // in check auth it get sent in the headers with "bearer" in the begining
     // sendreceipt();
      
