@@ -17,10 +17,9 @@ router.post('/info',checkAuth,(req,res,next)=>{
         count:docs.length,
         orders: docs.map(doc=>{
           return{
-            _id: doc._id,
             firstname : doc.firstname,
             lastname: doc.lastname,
-            email: doc.emit,
+            email: doc.email,
             phone: doc.phone,
             address: doc.address,
             cin: doc.cin
