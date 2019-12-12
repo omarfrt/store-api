@@ -13,16 +13,15 @@ const User = require('../models/user');
 
 router.post('/info',checkAuth,(req,res,next)=>{
    User.find({email:req.body.email})
-   .then(
-      res.status(200).json({
-    firstname: user[0].firstname,
-    lastname:user[0].lastname,
-    phone:user[0].phone,
-    address:user[0].address,
-    cin:user[0].cin
-      })
+   .then(user=>{
+      
+     return res.status(200).json({firstname: user[0].firstname,
+        lastname:user[0].lastname,
+        phone:user[0].phone,
+        address:user[0].address,
+        cin:user[0].cin});
   
-    )
+    })
    .catch(
       err=>{
          console.log(err);
