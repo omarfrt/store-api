@@ -11,6 +11,7 @@ const userSchema = mongoose.Schema({
         match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     },
     password: { type: String, required: true },
+    fullname:{ type: String, required: true },
     firstlogin: {type: Boolean, required: false},
     firstname:{type: String, required: false},
     lastname:{type: String, required: false},

@@ -8,10 +8,11 @@ const rimraf = require('rimraf');
 const Order = require('../models/order');
 const Buyer = require ('../models/buyer');
 const checkAuth = require('../middleware/buyer_auth');
+const User = require('../models/user');
 
 
 router.post('/info',checkAuth,(req,res,next)=>{
-   Buyer.find({email:req.body.email})
+   User.find({email:req.body.email})
    .then(docs=>{
       const response = {
         count:docs.length,
