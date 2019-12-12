@@ -6,6 +6,7 @@ const nodemailer = require("nodemailer");
 const Order = require('../models/order');
 const Product = require ('../models/products');
 const checkAuth = require('../middleware/check-auth');
+const User = require('../models/user');
 
 const htmlParser = (order)=>{
   const {user,totalPrice, products, paymentmethod}=order
@@ -58,8 +59,37 @@ async function sendreceipt(order){
 }
 
 
+//................................................................................\\
 
+firstloginfosave=(order)=>{
+  const {user,totalPrice, products, paymentmethod}=order
+  const {firstname,lastname} = user;
+User.find({email:order.user.email})
+.exec()
+.then(docs =>{
+  if(docs.firstlogin = "true"){
+    User.updateOne({email:order.user.email},{$set:{firstname:order.user.firstname,
+      lastname:order.user.lastname,
+      phone:order.user.phone,
+      address:order.user.address,
+      cin:order.user.cin} 
+       }).exec().then().catch(err=>{
+        console.log(err);
+        res.status(500).json({
+          error:err
+        });
+      });
+  }
+})
+.catch(err=>{
+  console.log(err);
+  res.status(500).json({
+    error:err
+  });
+});
+};
 
+//................................................................................\\
 
 
 
@@ -112,6 +142,7 @@ const order= new Order({
       });
     });
     sendreceipt(order);
+    firstloginfosave(order);
   });
 
     

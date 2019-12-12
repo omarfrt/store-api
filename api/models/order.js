@@ -14,10 +14,10 @@ const orderSchema = mongoose.Schema({
   quantity:{type: Number, required: false},
   price: Number,
   rating:Number,
-  productimgl:{type: String, required: true},
-  publisher:{type: String, required: true},
-  productdimensions:{type: String, required: true},
-  language:{type: String, required: true}
+  productimgl:{type: String, required: false},
+  publisher:{type: String, required: false},
+  productdimensions:{type: String, required: false},
+  language:{type: String, required: false}
   }],
   user:     { firstname:{type: String, required: true},
               lastname:{type: String, required: true},
