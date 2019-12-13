@@ -9,6 +9,7 @@ const Order = require('../models/order');
 const Buyer = require ('../models/buyer');
 const checkAuth = require('../middleware/buyer_auth');
 const User = require('../models/user');
+const Product = require ('../models/products');
 
 
 router.post('/info',checkAuth,(req,res,next)=>{
@@ -77,5 +78,26 @@ router.post('/info',checkAuth,(req,res,next)=>{
      });
    });
  
+   router.patch('/comments',checkAuth,(req,res,next)=>{
+    
+    
+    Product.updateOne({_id:req.body.id},{$set:{comments:req.body.comments}})
+    .exec()
+    .then(result=>{
+      res.status(200).json({
+        message:'comment saved',
+        request:{
+          type:'GET',
+          url:'http://localhost:3000/products/'+ id
+        }
+      });
+    })
+    .catch(err=>{
+      console.log(err);
+      res.status(500).json({
+        error:err
+      });
+    });
+   });
 
 module.exports = router;

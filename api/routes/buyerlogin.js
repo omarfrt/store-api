@@ -28,7 +28,8 @@ router.post("/signup", (req, res, next) => {
             } else {
               const user = new User({
                 _id: new mongoose.Types.ObjectId(),
-                fullname:req.body.name,
+                firstname:req.body.firstname,
+                lastname:req.body.lastname,
                 email: req.body.email,
                 password: hash,
                 firstlogin:"true"
@@ -84,7 +85,8 @@ router.post("/signup", (req, res, next) => {
             return res.status(200).json({
               message: "Auth successful",
               token: token,
-              fullname: user[0].fullname
+              firstname: user[0].firstname,
+              lastname:user[0].lastname
             });
           }
           res.status(401).json({

@@ -17,11 +17,12 @@ const productSchema = mongoose.Schema({
   publisher:{type: String, required: true},
   productdimensions:{type: String, required: true},
   language:{type: String, required: true},
-  comments:{
+  comments:[{
     firstname:{type: String, required: false},
     lastname:{type: String, required: false},
+    userRating:{type: String , required: false},
     comment:{type: String, required: false}
-  }
+  }]
 });
 
  productSchema.plugin(timestamps);
