@@ -59,8 +59,9 @@ console.log(page);
         rating: doc.rating,
         productimgl: doc.productimgl,
         publisher:doc.publisher,
-          productdimensions:doc.productdimensions,
-          language: doc.language,
+        productdimensions:doc.productdimensions,
+        language: doc.language,
+        comments: doc.comments,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -119,6 +120,7 @@ router.get('/search/:bookname',(req, res, next)=>{
         publisher:doc.publisher,
           productdimensions:doc.productdimensions,
           language: doc.language,
+          comments: doc.comments,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -168,6 +170,7 @@ router.get('/sales',(req, res, next)=>{
         publisher:doc.publisher,
           productdimensions:doc.productdimensions,
           language: doc.language,
+          comments: doc.comments,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -217,6 +220,7 @@ router.get('/genre/:genre',(req,res,next)=>{
         publisher:doc.publisher,
           productdimensions:doc.productdimensions,
           language: doc.language,
+          comments: doc.comments,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -269,6 +273,7 @@ router.get('/genre/:genre/:page',(req,res,next)=>{
         publisher:doc.publisher,
           productdimensions:doc.productdimensions,
           language: doc.language,
+          comments: doc.comments,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -321,6 +326,7 @@ router.get('/hero',(req, res, next)=>{
         publisher:doc.publisher,
           productdimensions:doc.productdimensions,
           language: doc.language,
+          comments: doc.comments,
         request:{
           //hna kay3tik link w methode li tdir bach tjbed
           //gha wa7d lbook , 2000000IQ shit
@@ -372,6 +378,7 @@ router.get('/brows/:page',(req, res, next)=>{
         publisher:doc.publisher,
           productdimensions:doc.productdimensions,
           language: doc.language,
+          comments: doc.comments,
         request:{
           
           type:'GET',
@@ -446,6 +453,7 @@ router.post('/recheck',(req, res, next)=>{
           publisher:doc.publisher,
           productdimensions:doc.productdimensions,
           language: doc.language,
+          comments: doc.comments,
           request:{
             
             type:'GET',
