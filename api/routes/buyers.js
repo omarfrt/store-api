@@ -78,10 +78,22 @@ router.post('/info',checkAuth,(req,res,next)=>{
      });
    });
  
-   router.patch('/comments',checkAuth,(req,res,next)=>{
+   router.patch('/comments',(req,res,next)=>{
     
-    
-    Product.updateOne({_id:req.body.id},{$set:{comments:req.body.comments}})
+    const bkrate =req.body.rating;
+    const usrate= req.body.comments[0].userRating;
+    var difrence= bkrate - usrate;
+
+    if(difrence===0){
+      var bookrate = bkrate;
+    }else {
+      console.log(difrence);
+      
+      var bookrate = bkrate-difrence/2;
+    }
+
+    const id= req.body._id;
+    Product.updateOne({_id:id},{$push:{comments:req.body.comments},$set:{rating:bookrate}})
     .exec()
     .then(result=>{
       res.status(200).json({
