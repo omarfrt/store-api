@@ -78,7 +78,7 @@ router.post('/info',checkAuth,(req,res,next)=>{
      });
    });
  
-   router.patch('/comments',(req,res,next)=>{
+   router.patch('/comments',checkAuth,(req,res,next)=>{
     
     const bkrate =req.body.rating;
     const usrate= req.body.comments[0].userRating;
