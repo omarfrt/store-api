@@ -13,6 +13,7 @@ const productSchema = mongoose.Schema({
   quantity:{type: Number, required: false},
   price: Number,
   rating:Number,
+  oldprice:{type: Number, required: false},
   productimgl:{type: String, required: true},
   publisher:{type: String, required: true},
   productdimensions:{type: String, required: true},

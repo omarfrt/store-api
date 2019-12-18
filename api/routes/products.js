@@ -163,6 +163,7 @@ router.get('/sales',(req, res, next)=>{
         genre: doc.genre,
         sale: doc.sale,
         available: doc.available,
+        oldprice: doc.oldprice,
         quantity: doc.quantity,
         price:doc.price,
         rating: doc.rating,
