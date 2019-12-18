@@ -318,5 +318,28 @@ router.post('/products',upload.single('productimg'),checkAuth ,(req, res, next)=
 
   });
 
+  
+  router.patch("/comments",checkAuth,(req, res, next)=>{
+  
+    
+    Product.update({_id:req.body._id},{$pull:{comments:req.body.comments[0]}})
+    .exec()
+    .then(result=>{
+      res.status(200).json({
+        message:'comment been deleted',
+        
+      });
+    })
+    .catch(err=>{
+      console.log(err);
+      res.status(500).json({
+        error:err
+      });
+    });
+    
+  
+
+  });
+
 
   module.exports= router;
