@@ -146,7 +146,7 @@ router.get('/sales',(req, res, next)=>{
   Product.find({sale:true})
    .sort({ 'createdAt':-1})
   .limit(5)
-  .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl sale')
+  // .select('_id bookname aboutname authorname isbn genre quantity price rating productimgl sale')
   .populate('Product')
   .exec()
   .then(docs =>{
