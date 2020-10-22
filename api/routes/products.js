@@ -193,7 +193,7 @@ router.get('/sales',(req, res, next)=>{
 
 ////////////////////////////genre//////////////////////
 router.get('/genre/:genre',(req,res,next)=>{
-  var regex = new RegExp(req.params.bookname, 'i');
+  var regex = new RegExp(req.params.genre, 'i');
   Product.find({genre:regex})
   .sort({'createdAt':-1})
   .limit(10)
