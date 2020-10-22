@@ -49,6 +49,8 @@ jspm_packages/
 # TypeScript v1 declaration files
 typings/
 images/
+excelUploads/
+jsonFolder/
 
 # TypeScript cache
 *.tsbuildinfo
