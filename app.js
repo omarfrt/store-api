@@ -40,9 +40,9 @@ app.use((req, res, next) => {
 // routes which should handle requests
 app.use('/products', productRoutes);
 app.use('/orders', ordersRoutes);
-app.use('/user', usersRoutes);
+//app.use('/user', usersRoutes);
 app.use('/buyer',buyerRoutes);
-app.use('/login', buyerloginRoutes);
+app.use('/user', buyerloginRoutes);
 app.use('/admin',checkAuth,adminRoutes);
 app.use('/excelProduct',checkAuth, productexRoutes);
 app.use('/imagesUpload',checkAuth, uploadimgsRoutes);
