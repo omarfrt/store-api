@@ -102,7 +102,29 @@ router.post("/signup", (req, res, next) => {
       });
   });
   
-  
+  router.get('/info',checkAuth,(req,res,next)=>{
+    
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token,pwdjwt);
+    User.find({_id:decoded.userId})
+    .then(user=>{
+       
+      return res.status(200).json({firstname: user[0].firstname,
+         lastname:user[0].lastname,
+         phone:user[0].phone,
+         address:user[0].address,
+         cin:user[0].cin});
+   
+     })
+    .catch(
+       err=>{
+          console.log(err);
+          res.status(500).json({
+            error:err
+          });
+        }
+    );
+ });
   
   
   module.exports = router;
