@@ -107,7 +107,8 @@ router.post("/signup", (req, res, next) => {
     .then(user=>{
        
       return res.status(200).json({firstname: user[0].firstname,
-         lastname:user[0].lastname,
+        email: user[0].email,
+        lastname:user[0].lastname,
          phone:user[0].phone,
          address:user[0].address,
          cin:user[0].cin});
