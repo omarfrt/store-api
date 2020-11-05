@@ -74,7 +74,6 @@ router.post("/signup", (req, res, next) => {
           if (result) {
             const token = jwt.sign(
               {
-                email: user[0].email,
                 userId: user[0]._id
               },
                pwdjwt,
@@ -85,8 +84,6 @@ router.post("/signup", (req, res, next) => {
             return res.status(200).json({
               message: "Auth successful",
               token: token,
-              firstname: user[0].firstname,
-              lastname:user[0].lastname
             });
           }
           res.status(401).json({
