@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 
 const User = require('../models/user');
 const checkAuth = require('../middleware/buyer_auth');
+const user = require('../models/user');
 const pwdjwt= '3ezi3endo2dh';
 
 
@@ -123,6 +124,84 @@ router.post("/signup", (req, res, next) => {
         }
     );
  });
-  
+
+
+ router.get('/cart',checkAuth,(req,res,next)=>{
+    
+  const token = req.headers.authorization.split(" ")[1];
+  const decoded = jwt.verify(token,pwdjwt);
+  User.find({_id:decoded.userId})
+  .populate("cart")
+  .then(user=>{
+     
+    return res.status(200).json({cart: user[0].cart});
+ 
+   })
+  .catch(
+     err=>{
+        console.log(err);
+        res.status(500).json({
+          error:err
+        });
+      }
+  );
+});
+ 
+
+ router.patch('/deleteFromCart',checkAuth,(req,res,next)=>{
+  const token = req.headers.authorization.split(" ")[1];
+  const decoded = jwt.verify(token,pwdjwt);
+   User.updateOne({_id:decoded.userId},{$pullAll:{cart: req.body._id}})
+   .exec()
+  .then(result=>{
+    res.status(200).json({
+      message:'book deleted to cart ',
+      request:{
+        type:'Patch',
+      }
+    });
+  })
+  .catch(err=>{
+    console.log(err);
+    res.status(500).json({
+      error:err
+    });
+  });
+ });
+
+async function getcart(userId,res){
+await User.find({_id:userId})
+.populate("cart")
+.then(user=>{
+   
+  return res.status(200).json({cart: user[0].cart});
+
+ })
+.catch(
+   err=>{
+      console.log(err);
+      res.status(500).json({
+        error:err
+      });
+    }
+);
+}
+
+ router.patch('/addToCart',checkAuth, (req,res,next)=>{
+  const token = req.headers.authorization.split(" ")[1];
+  const decoded = jwt.verify(token,pwdjwt);
+  User.updateOne({_id:decoded.userId},{$push:{cart:req.body._id}})
+  .exec()
+  .then(result=>{
+    getcart(decoded.userId,res);
+  })
+  .catch(err=>{
+    console.log(err);
+    res.status(500).json({
+      error:err
+    });
+  });
+ 
+ });
   
   module.exports = router;
