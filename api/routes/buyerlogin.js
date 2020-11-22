@@ -125,7 +125,8 @@ router.post("/signup", (req, res, next) => {
     );
  });
 
-
+///////////////////////////////////////
+// cart
  router.get('/cart',checkAuth,(req,res,next)=>{
     
   const token = req.headers.authorization.split(" ")[1];
@@ -185,7 +186,7 @@ await User.find({_id:userId})
       });
     }
 );
-}
+};
 
  router.patch('/addToCart',checkAuth, (req,res,next)=>{
   const token = req.headers.authorization.split(" ")[1];
@@ -203,5 +204,82 @@ await User.find({_id:userId})
   });
  
  });
+
+ ///////////////////////////////////////////////////
+ // wishList
+ router.get('/wishlist',checkAuth,(req,res,next)=>{
+    
+  const token = req.headers.authorization.split(" ")[1];
+  const decoded = jwt.verify(token,pwdjwt);
+  User.find({_id:decoded.userId})
+  .populate("wishList")
+  .then(user=>{
+     
+    return res.status(200).json({wishList: user[0].wishList});
+ 
+   })
+  .catch(
+     err=>{
+        console.log(err);
+        res.status(500).json({
+          error:err
+        });
+      }
+  );
+});
+
+router.patch('/deleteFromWishList',checkAuth,(req,res,next)=>{
+  const token = req.headers.authorization.split(" ")[1];
+  const decoded = jwt.verify(token,pwdjwt);
+   User.updateOne({_id:decoded.userId},{$pullAll:{wishList: req.body._id}})
+   .exec()
+  .then(result=>{
+    res.status(200).json({
+      message:'book deleted to cart ',
+      request:{
+        type:'Patch',
+      }
+    });
+  })
+  .catch(err=>{
+    console.log(err);
+    res.status(500).json({
+      error:err
+    });
+  });
+ });
+ async function getWishList(userId,res){
+  await User.find({_id:userId})
+  .populate("wishList")
+  .then(user=>{
+     
+    return res.status(200).json({wishList: user[0].wishList});
   
+   })
+  .catch(
+     err=>{
+        console.log(err);
+        res.status(500).json({
+          error:err
+        });
+      }
+  );
+  }
+  
+ router.patch('/addToWishList',checkAuth, (req,res,next)=>{
+  const token = req.headers.authorization.split(" ")[1];
+  const decoded = jwt.verify(token,pwdjwt);
+  User.updateOne({_id:decoded.userId},{$push:{wishList:req.body._id}})
+  .exec()
+  .then(result=>{
+    getWishList(decoded.userId,res);
+  })
+  .catch(err=>{
+    console.log(err);
+    res.status(500).json({
+      error:err
+    });
+  });
+ 
+ });
   module.exports = router;

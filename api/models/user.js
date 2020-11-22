@@ -17,7 +17,8 @@ const userSchema = mongoose.Schema({
     phone:{type: String, required: false},
     address:{type: String, required: false},
     cin:{type: String, required: false},
-    cart:[{ type:mongoose.Schema.Types.ObjectId, ref:'Product'}]
+    cart:[{ type:mongoose.Schema.Types.ObjectId, ref:'Product'}],
+    wishList:[{ type:mongoose.Schema.Types.ObjectId, ref:'Product'}]
 });
 
 userSchema.plugin(timestamps);
