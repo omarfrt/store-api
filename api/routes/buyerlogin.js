@@ -191,7 +191,7 @@ await User.find({_id:userId})
  router.patch('/addToCart',checkAuth, (req,res,next)=>{
   const token = req.headers.authorization.split(" ")[1];
   const decoded = jwt.verify(token,pwdjwt);
-  User.updateOne({_id:decoded.userId},{$push:{cart:req.body._id}})
+  User.updateOne({_id:decoded.userId},{$addToSet:{cart:req.body._id}})
   .exec()
   .then(result=>{
     getcart(decoded.userId,res);
@@ -269,7 +269,7 @@ router.patch('/deleteFromWishList',checkAuth,(req,res,next)=>{
  router.patch('/addToWishList',checkAuth, (req,res,next)=>{
   const token = req.headers.authorization.split(" ")[1];
   const decoded = jwt.verify(token,pwdjwt);
-  User.updateOne({_id:decoded.userId},{$push:{wishList:req.body._id}})
+  User.updateOne({_id:decoded.userId},{$addToSet:{wishList:req.body._id}})
   .exec()
   .then(result=>{
     getWishList(decoded.userId,res);
