@@ -127,6 +127,25 @@ router.post("/signup", (req, res, next) => {
 
 ///////////////////////////////////////
 // cart
+
+async function getcart(userId,res){
+await User.find({_id:userId})
+.populate("cart")
+.then(user=>{
+   
+  return res.status(200).json({cart: user[0].cart});
+
+ })
+.catch(
+   err=>{
+      console.log(err);
+      res.status(500).json({
+        error:err
+      });
+    }
+);
+};
+
  router.get('/cart',checkAuth,(req,res,next)=>{
     
   const token = req.headers.authorization.split(" ")[1];
@@ -155,12 +174,7 @@ router.post("/signup", (req, res, next) => {
    User.updateOne({_id:decoded.userId},{$pullAll:{cart: req.body._id}})
    .exec()
   .then(result=>{
-    res.status(200).json({
-      message:'book deleted to cart ',
-      request:{
-        type:'Patch',
-      }
-    });
+     getcart(decoded.userId,res);
   })
   .catch(err=>{
     console.log(err);
@@ -170,23 +184,6 @@ router.post("/signup", (req, res, next) => {
   });
  });
 
-async function getcart(userId,res){
-await User.find({_id:userId})
-.populate("cart")
-.then(user=>{
-   
-  return res.status(200).json({cart: user[0].cart});
-
- })
-.catch(
-   err=>{
-      console.log(err);
-      res.status(500).json({
-        error:err
-      });
-    }
-);
-};
 
  router.patch('/addToCart',checkAuth, (req,res,next)=>{
   const token = req.headers.authorization.split(" ")[1];
@@ -207,6 +204,23 @@ await User.find({_id:userId})
 
  ///////////////////////////////////////////////////
  // wishList
+  async function getWishList(userId,res){
+  await User.find({_id:userId})
+  .populate("wishList")
+  .then(user=>{
+     
+    return res.status(200).json({wishList: user[0].wishList});
+  
+   })
+  .catch(
+     err=>{
+        console.log(err);
+        res.status(500).json({
+          error:err
+        });
+      }
+  );
+  }
  router.get('/wishlist',checkAuth,(req,res,next)=>{
     
   const token = req.headers.authorization.split(" ")[1];
@@ -234,12 +248,7 @@ router.patch('/deleteFromWishList',checkAuth,(req,res,next)=>{
    User.updateOne({_id:decoded.userId},{$pullAll:{wishList: req.body._id}})
    .exec()
   .then(result=>{
-    res.status(200).json({
-      message:'book deleted to cart ',
-      request:{
-        type:'Patch',
-      }
-    });
+    getWishList(decoded.userId,res);
   })
   .catch(err=>{
     console.log(err);
@@ -248,23 +257,7 @@ router.patch('/deleteFromWishList',checkAuth,(req,res,next)=>{
     });
   });
  });
- async function getWishList(userId,res){
-  await User.find({_id:userId})
-  .populate("wishList")
-  .then(user=>{
-     
-    return res.status(200).json({wishList: user[0].wishList});
-  
-   })
-  .catch(
-     err=>{
-        console.log(err);
-        res.status(500).json({
-          error:err
-        });
-      }
-  );
-  }
+
   
  router.patch('/addToWishList',checkAuth, (req,res,next)=>{
   const token = req.headers.authorization.split(" ")[1];
