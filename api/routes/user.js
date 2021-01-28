@@ -115,3 +115,55 @@ router.delete("/:userId",checkAuth, (req, res, next) => {
 
 
 module.exports = router;
+
+
+
+
+
+
+
+// const express = require('express')
+// const app = express();
+// const router = express.Router();
+// const mongoose = require('mongoose');
+// const passport = require("passport")
+// const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+
+// passport.serializeUser(function (user, cb) {
+//   cb(null, user);
+// });
+
+// passport.deserializeUser(function(obj, cb) {
+//   cb(null, obj);
+// });
+
+// passport.use(new GoogleStrategy({
+//     clientID: '636353299712-7cbr13nj8jf2f1ats01sehagemp58l7q.apps.googleusercontent.com',
+//     clientSecret: 'Klpb1p2kvhxIbGn9U8IXROAY',
+//     callbackURL: "http://localhost:2000/google/callback"
+//   },
+//   function(accessToken, refreshToken, profile, cb) {
+//     // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+//     //   return cb(err, user);
+//     // });
+//     return cb(null, profile);
+//   }
+// ));
+
+
+// router.get('/logedin',(req, res) => res.send(`Welcome mr ${req.user.displayName}!`));
+
+
+// router.get('/',
+//   passport.authenticate('google', { scope: ['profile','email'] }));
+
+
+// router.get('/callback', 
+//   passport.authenticate('google', { failureRedirect: '/' }),
+//   function (req, res) {
+//     res.send(req.user._json.email)
+//     // Successful authentication, redirect home.
+//     // res.redirect('/google/logedin');
+//   });
+// module.exports = router;

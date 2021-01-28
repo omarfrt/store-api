@@ -78,38 +78,6 @@ router.post('/info',checkAuth,(req,res,next)=>{
      });
    });
  
-   router.patch('/comments',checkAuth,(req,res,next)=>{
-    
-    const bkrate =req.body.rating;
-    const usrate= req.body.comments[0].userRating;
-    var difrence= bkrate - usrate;
-
-    if(difrence===0){
-      var bookrate = bkrate;
-    }else {
-      console.log(difrence);
-      
-      var bookrate = bkrate-difrence/2;
-    }
-
-    const id= req.body._id;
-    Product.updateOne({_id:id},{$push:{comments:req.body.comments},$set:{rating:bookrate}})
-    .exec()
-    .then(result=>{
-      res.status(200).json({
-        message:'comment saved',
-        request:{
-          type:'GET',
-          url:'http://localhost:3000/products/'+ id
-        }
-      });
-    })
-    .catch(err=>{
-      console.log(err);
-      res.status(500).json({
-        error:err
-      });
-    });
-   });
+  
 
 module.exports = router;

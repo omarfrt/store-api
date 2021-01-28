@@ -21,7 +21,7 @@ const productSchema = mongoose.Schema({
   comments:[{
     firstname:{type: String, required: false},
     lastname:{type: String, required: false},
-    userRating:{type: String , required: false},
+    userRating:{type: Number , required: false},
     comment:{type: String, required: false}
   }]
 });
