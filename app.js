@@ -3,6 +3,8 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const passport = require("passport")
+
 
 
 const checkAuth = require('./api/middleware/check-auth');
@@ -14,6 +16,7 @@ const productexRoutes = require('./api/routes/excelProduct');
 const uploadimgsRoutes = require('./api/routes/imagesUpload');
 const buyerRoutes = require('./api/routes/buyers');
 const buyerloginRoutes = require('./api/routes/buyerlogin');
+const googleauth = require('./api/routes/googleAuth0');
 
 const pwddb = 'qwert12345A';
 mongoose.connect('mongodb+srv://jlo:' + pwddb + '@node-rest-shop-ijnnd.mongodb.net/test?retryWrites=true&w=majority', {
@@ -37,6 +40,7 @@ app.use((req, res, next) => {
   }
   next();
 });
+app.use(passport.initialize());
 // routes which should handle requests
 app.use('/products', productRoutes);
 app.use('/orders', ordersRoutes);
@@ -45,7 +49,8 @@ app.use('/buyer',buyerRoutes);
 app.use('/user', buyerloginRoutes);
 app.use('/admin',checkAuth,adminRoutes);
 app.use('/excelProduct',checkAuth, productexRoutes);
-app.use('/imagesUpload',checkAuth, uploadimgsRoutes);
+app.use('/imagesUpload', checkAuth, uploadimgsRoutes);
+app.use('/google', googleauth);
 
 
 //handling errors

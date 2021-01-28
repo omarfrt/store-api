@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 
 const User = require('../models/user');
+const Product = require('../models/products')
 const checkAuth = require('../middleware/buyer_auth');
 const user = require('../models/user');
 const pwdjwt= '3ezi3endo2dh';
@@ -75,7 +76,10 @@ router.post("/signup", (req, res, next) => {
           if (result) {
             const token = jwt.sign(
               {
-                userId: user[0]._id
+                userId: user[0]._id,
+                firstname: user[0].firstname,
+                email: user[0].email,
+                lastname:user[0].lastname
               },
                pwdjwt,
               {
@@ -275,4 +279,49 @@ router.patch('/deleteFromWishList',checkAuth,(req,res,next)=>{
   });
  
  });
+//////////////////////////////////////// COMMENT //////////////////////////////////////////
+
+const newRating = (comments,Tr,Nr) => {
+  //((Overall Rating * Total Rating) + new Rating) / (Total Rating + 1)
+  const Or = Object.keys(comments).length;
+  const newRating = ((Or * Tr) + Nr) / (Tr + 1)
+  return newRating;
+
+};
+
+
+
+  router.patch('/comment',checkAuth,(req,res,next)=>{
+     const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token, pwdjwt);
+    let coms = req.body.comments || {};
+    let rating =req.body.rating || 5;
+     const Tr = rating;
+      const Nr = req.body.userRating;
+     var comments = {};
+     comments.comment = req.body.comment;
+     comments.userRating = Nr;
+     comments.firstname = decoded.firstname;
+     comments.lastname = decoded.lastname;
+     const rat = newRating(coms, Tr, Nr);
+     const id = req.body._id;
+    
+    Product.updateOne({_id:id},{$push:{comments:comments},$set:{rating:rat}})
+    .exec()
+    .then(result=>{
+      res.status(200).json({
+        message:'comment saved',
+        request:{
+          type:'GET',
+          url:'http://localhost:3000/products/'+ id
+        }
+      });
+    })
+    .catch(err=>{
+      console.log(err);
+      res.status(500).json({
+        error:err
+      });
+    });
+   });
   module.exports = router;
