@@ -16,7 +16,7 @@ const productexRoutes = require('./api/routes/excelProduct');
 const uploadimgsRoutes = require('./api/routes/imagesUpload');
 const buyerRoutes = require('./api/routes/buyers');
 const buyerloginRoutes = require('./api/routes/buyerlogin');
-const googleauth = require('./api/routes/googleAuth0');
+//const googleauth = require('./api/routes/googleAuth0');
 
 const pwddb = 'qwert12345A';
 mongoose.connect('mongodb+srv://jlo:' + pwddb + '@node-rest-shop-ijnnd.mongodb.net/test?retryWrites=true&w=majority', {
@@ -50,7 +50,7 @@ app.use('/user', buyerloginRoutes);
 app.use('/admin',checkAuth,adminRoutes);
 app.use('/excelProduct',checkAuth, productexRoutes);
 app.use('/imagesUpload', checkAuth, uploadimgsRoutes);
-app.use('/google', googleauth);
+//app.use('/google', googleauth);
 
 
 //handling errors
