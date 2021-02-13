@@ -9,7 +9,7 @@ const passport = require("passport")
 
 const checkAuth = require('./api/middleware/check-auth');
 const adminRoutes = require('./api/routes/_admin');
-const usersRoutes = require('./api/routes/user');
+const adminLoginRoutes = require('./api/routes/user');
 const productRoutes = require('./api/routes/products');
 const ordersRoutes = require('./api/routes/orders');
 const productexRoutes = require('./api/routes/excelProduct');
@@ -44,7 +44,7 @@ app.use(passport.initialize());
 // routes which should handle requests
 app.use('/products', productRoutes);
 app.use('/orders', ordersRoutes);
-//app.use('/user', usersRoutes);
+app.use('/AdminLogin', adminLoginRoutes);
 app.use('/buyer',buyerRoutes);
 app.use('/user', buyerloginRoutes);
 app.use('/admin',checkAuth,adminRoutes);
