@@ -19,12 +19,13 @@ const orderSchema = mongoose.Schema({
   productdimensions:{type: String, required: false},
   language:{type: String, required: false}
   }],
-  user:     { firstname:{type: String, required: true},
+  user: {_id:{type:String,require:false},
+    firstname: { type: String, required: true },
               lastname:{type: String, required: true},
               email:{type: String, required: true},
-              phone:{type: String, required: true},
-              address:{type: String, required: true},
-              cin:{type: String, required: true}},
+              phone:{type: String, required: false},
+              address:{type: String, required: false},
+              cin:{type: String, required: false}},
   paypalinfo:{create_time: {type: String, required: false},
               id:{type: String, required: false},
               payer:[ {name:{given_name:{type: String, required: false},
@@ -34,7 +35,7 @@ const orderSchema = mongoose.Schema({
               purchase_units:[{amount:{currency_code:{type: String, required: false},
                               value:{type: String, required: false}}}]},
   totalPrice: {type:Number, required:true},
-  paymentmethod:{type:String, required:true},
+  paymentmethod:{type:String, required:false},
   confirmed:{type:Boolean , required : false}
 });
 orderSchema.plugin(timestamps);

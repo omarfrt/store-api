@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const nodemailer = require("nodemailer");
-
+const jwt = require("jsonwebtoken");
+const pwdjwt= '3ezi3endo2dh'
 const Order = require('../models/order');
 const Product = require ('../models/products');
-const checkAuth = require('../middleware/check-auth');
+const checkAuth = require('../middleware/buyer_auth');
 const User = require('../models/user');
 
 const htmlParser = (order)=>{
@@ -91,16 +92,23 @@ User.find({email:order.user.email})
 };
 
 //................................................................................\\
+async function getTotal(req,usrId ) {
+  //get total price from ids
+    const ids = req.body.ids;
+  const addr = req.body.address;
+  const cin = req.body.cin;
+  const phone = req.body.phone;
+
+  const products = await  Product.find().where('_id').in(ids).exec();
+  const user = await User.findById(usrId).exec();
 
 
-
-router.post('/',(req, res, next)=>{
-const tot = req.body.products.reduce((acc,product)=>{
+  const tot = await products.reduce((acc,product)=>{
   acc += product.price ;
   return acc;
-},0);
-
-function total(tot){
+  },0);
+  
+  function total(tot) {
   if (tot < 160) {
     return tot+45;
   }
@@ -108,15 +116,29 @@ function total(tot){
     return tot+30;
   }
   return tot;
-}
-const order= new Order({
+  }
+  const usr = { ...user.toObject(), address: addr, cin: cin, phone: phone };
+  //console.log(usr);
+  const order= new Order({
   _id: new mongoose.Types.ObjectId,
-  products:req.body.products,
-  user:req.body.user,
-  paypalinfo: req.body.paypalinfo,
-  paymentmethod: req.body.paymentmethod,
+  products:products,
+  user:usr,
   totalPrice: total(tot)
-});
+  });
+  return order;
+}
+
+router.post('/',checkAuth,async (req, res, next) => {
+//get books ids  
+  
+ const token = req.headers.authorization.split(" ")[1];
+ const decoded = jwt.verify(token,pwdjwt);
+  const usrId = decoded.userId;
+
+  
+  
+  const order = await getTotal(req, usrId);
+ 
  order.save()
     .then(result => {
       console.log(result);
@@ -124,7 +146,8 @@ const order= new Order({
           message:'order stored',
           createdOrder:{
             _id: result._id,
-            product : result.product,
+            product: result.products,
+            costumer:result.user,
             paypalinfo: result.paypalinfo,
             paymentmethod: result.paymentmethod,
             totalPrice: result.totalPrice
@@ -142,7 +165,7 @@ const order= new Order({
         error:err
       });
     });
-    sendreceipt(order);
+    //sendreceipt(order);
     firstloginfosave(order);
   });
 
