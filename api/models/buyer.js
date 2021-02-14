@@ -7,7 +7,7 @@ const buyerSchema = mongoose.Schema({
     lastname:{type: String, required: true},
     email:{type: String, required: true},
     phone:{type: String, required: true},
-    address:{type: String, required: true},
+    address:[{type: String, required: true}],
     cin:{type: String, required: true}
 });
 

@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema({
     firstname:{type: String, required: false},
     lastname:{type: String, required: false},
     phone:{type: String, required: false},
-    address:{type: String, required: false},
+    address:[{type: String, required: false}],
     cin:{type: String, required: false},
     cart:[{ type:mongoose.Schema.Types.ObjectId, ref:'Product'}],
     wishList:[{ type:mongoose.Schema.Types.ObjectId, ref:'Product'}]

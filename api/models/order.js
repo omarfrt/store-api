@@ -24,7 +24,7 @@ const orderSchema = mongoose.Schema({
               lastname:{type: String, required: true},
               email:{type: String, required: true},
               phone:{type: String, required: false},
-              address:{type: String, required: false},
+              address:[{type: String, required: false}],
               cin:{type: String, required: false}},
   paypalinfo:{create_time: {type: String, required: false},
               id:{type: String, required: false},
