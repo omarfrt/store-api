@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const nodemailer = require("nodemailer");
 const multer = require('multer');
 const rimraf = require('rimraf');
+const jwt = require("jsonwebtoken");
+const pwdjwt= '3ezi3endo2dh'
 
 const Order = require('../models/order');
 const Buyer = require ('../models/buyer');
@@ -40,16 +42,18 @@ router.post('/info',checkAuth,(req,res,next)=>{
 
 
 
- router.post('/orders/page/:page', checkAuth, (req, res, next)=>{
+ router.get('/userorders', checkAuth, (req, res, next)=>{
    // in check auth it get sent in the headers with "bearer" in the begining
     // sendreceipt();
-     
-    const resPerPage =20;
-    const page = req.params.page || 1;
-     Order.find({email: req.body.email})
+     const token = req.headers.authorization.split(" ")[1];
+ const decoded = jwt.verify(token,pwdjwt);
+  const usrId = decoded.email;
+    // const resPerPage =20;
+    // const page = req.params.page || 1;
+   Order.find( {"user.email":usrId})
      .sort({'createdAt':-1})
-     .skip((resPerPage * page) - resPerPage)
-     .limit(resPerPage)
+    //  .skip((resPerPage * page) - resPerPage)
+    //  .limit(resPerPage)
      .exec()
      .then(docs=>{
        const response = {
