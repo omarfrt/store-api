@@ -1,21 +1,23 @@
-const express = require ('express');
+const express = require("express");
 const router = express.Router();
-const multer = require('multer');
-const rimraf = require('rimraf');
-const sharp = require('sharp');
-const fs = require('fs');
-const checkAuth= require('../middleware/check-auth');
-
+const multer = require("multer");
+const rimraf = require("rimraf");
+const sharp = require("sharp");
+const fs = require("fs");
+const { uploadToS3 } = require("./BucketUp");
+const util = require("util");
+const unlinkFile = util.promisify(fs.unlink);
+const checkAuth = require("../middleware/check-auth");
 const storage = multer.diskStorage({
-    destination : function(req,file,cb){
-      cb(null, './images/imgL/');
-    },
-    filename :function(req, file, cb){
-      cb(null,file.originalname);
-    }
+  destination: function (req, file, cb) {
+    cb(null, "./images/imgL/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
 });
-const upload = multer({storage: storage}).array("imgupload");
-
+// const upload = multer({ storage: storage }).array("imgupload");
+const upload = multer({ storage: storage }).single("imgupload");
 //
 // async function MinifyImages(){
 // 	 const largeImages = await  imagemin(['./imguploads/*.{jpg,png}'], './images/imgL', {
@@ -40,7 +42,6 @@ const upload = multer({storage: storage}).array("imgupload");
 //
 // };
 
-
 // async function MinifyImages(){
 //   const largeImages = await sharp('./imguploads/')// it needs image path folder doesntwork
 //     .resize(300, 200)
@@ -54,7 +55,6 @@ const upload = multer({storage: storage}).array("imgupload");
 //       // containing a scaled and cropped version of input.jpg
 //     });
 // };
-
 
 //   fs.readdir("./imguploads", function(err, items) {
 //     console.log(items);
@@ -95,7 +95,6 @@ const upload = multer({storage: storage}).array("imgupload");
 //     rimraf('./imguploads/*', function () { console.log('original images been deleted'); });
 // });
 
- 
 // app.post('/profile', function (req, res) {
 //   upload(req, res, function (err) {
 //     if (err instanceof multer.MulterError) {
@@ -103,52 +102,22 @@ const upload = multer({storage: storage}).array("imgupload");
 //     } else if (err) {
 //       // An unknown error occurred when uploading.
 //     }
- 
+
 //     // Everything went fine.
 //   })
 // })
 
+router.post("/", upload, checkAuth, async (req, res, next) => {
+  const file = req.file;
 
+  // apply filter
+  // resize
 
-router.post("/",checkAuth, (req,res,next)=>{
- 
-  upload(req, res, function (err) {
-    if (err instanceof multer.MulterError) {
-      // A Multer error occurred when uploading.
-      
-        console.log(err);
-        res.status(500).json({
-          error:err
-        })
-      
-    } else if (err) {
-      
-        console.log(err);
-        res.status(500).json({
-          error:err
-        })
-      
-      // An unknown error occurred when uploading.
-    }
-    res.json({
-      message:"we good",
-      request: req.body
-      //msg2:  req.file.filename
-    });
-    console.log(req.files);
-    
-    // Everything went fine.
-  })
- 
-
- 
-
- // console.log( req.file.filename);
-  
-
-
+  const result = await uploadToS3(file);
+  await unlinkFile(file.path);
+  console.log(result);
+  const description = req.body.description;
+  res.send({ imagePath: `/images/${result.Key}` });
 });
-
-
 
 module.exports = router;

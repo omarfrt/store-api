@@ -9,7 +9,7 @@ const User = require('../models/user');
 const checkAuth = require('../middleware/check-auth');
 const pwdjwt= 'secret'
 
-router.post("/signup",checkAuth, (req, res, next) => {
+router.post("/signup", (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
     .then(user => {
