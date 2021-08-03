@@ -108,7 +108,7 @@ const upload = multer({ storage: storage }).array("imgupload");
 // })
 
 router.post("/", upload, checkAuth, async (req, res, next) => {
-  const file = req.file;
+  const file = req.files;
 
   // apply filter
   // resize
