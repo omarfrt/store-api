@@ -16,8 +16,8 @@ const storage = multer.diskStorage({
     cb(null, file.originalname);
   },
 });
-// const upload = multer({ storage: storage }).array("imgupload");
-const upload = multer({ storage: storage }).single("imgupload");
+const upload = multer({ storage: storage }).array("imgupload");
+//const upload = multer({ storage: storage }).single("imgupload");
 //
 // async function MinifyImages(){
 // 	 const largeImages = await  imagemin(['./imguploads/*.{jpg,png}'], './images/imgL', {
