@@ -106,18 +106,25 @@ const upload = multer({ storage: storage }).array("imgupload");
 //     // Everything went fine.
 //   })
 // })
+async function uploading(file) {
+  console.log(`should run ${file.length} times`);
+  for (var i = 0; i < file.length; i++) {
+    console.log(file[i].path);
+    const result = await uploadToS3(file[i]);
+    await unlinkFile(file[i].path);
+    console.log(result);
 
-router.post("/", upload, checkAuth, async (req, res, next) => {
+    //res.write({ imagePath: `/images/${result.Key}` });
+  }
+  console.log("ending loop");
+  // res.write("uploadToS func");
+}
+
+router.post("/", upload, async (req, res, next) => {
   const file = req.files;
-
-  // apply filter
-  // resize
-
-  const result = await uploadToS3(file);
-  await unlinkFile(file.path);
-  console.log(result);
-  const description = req.body.description;
-  res.send({ imagePath: `/images/${result.Key}` });
+  await uploading(file);
+  res.send("images has been uploaded successfully //this not an err handler!!");
+  res.end();
 });
 
 module.exports = router;
