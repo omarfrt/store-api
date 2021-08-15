@@ -120,7 +120,7 @@ async function uploading(file) {
   // res.write("uploadToS func");
 }
 
-router.post("/", upload, async (req, res, next) => {
+router.post("/", upload, checkAuth, async (req, res, next) => {
   const file = req.files;
   await uploading(file);
   res.send("images has been uploaded successfully //this not an err handler!!");
