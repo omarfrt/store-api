@@ -48,7 +48,7 @@ jspm_packages/
 
 # TypeScript v1 declaration files
 typings/
-images/
+images/imgL/*
 excelUploads/
 jsonFolder/
 
